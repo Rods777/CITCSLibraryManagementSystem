@@ -1,5 +1,6 @@
 package guis;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,7 +15,7 @@ public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private GradientPanel bgPanel;
-
+	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
 	/**
 	 * Launch the application.
 	 */
@@ -52,13 +53,18 @@ public class Login extends JFrame {
 		// Logos
 		JLabel CITCS_logo = new JLabel();
 		CITCS_logo.setIcon(new ImageIcon(Login.class.getResource("/img/citcs_logo.png")));
-		CITCS_logo.setBounds(104, 106, 70, 62);
+		CITCS_logo.setBounds(24, 121, 70, 62);
 		bgPanel.add(CITCS_logo);
 		
 		JLabel PLMUN_Logo = new JLabel();
 		PLMUN_Logo.setIcon(new ImageIcon(Login.class.getResource("/img/plmun_logo.png")));
-		PLMUN_Logo.setBounds(236, 111, 53, 53);
+		PLMUN_Logo.setBounds(307, 130, 53, 53);
 		bgPanel.add(PLMUN_Logo);
+		
+		JLabel PLMUN_CITCS = new JLabel("PLMUN - CITCS");
+		inter_extrabold.applyFont(PLMUN_CITCS, 24F, Color.white);
+		PLMUN_CITCS.setBounds(104, 121, 193, 62);
+		bgPanel.add(PLMUN_CITCS);
 		
 	}
 }
