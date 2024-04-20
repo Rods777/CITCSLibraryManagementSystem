@@ -16,6 +16,7 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private GradientPanel bgPanel;
 	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
+	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	/**
 	 * Launch the application.
 	 */
@@ -53,18 +54,33 @@ public class Login extends JFrame {
 		// Logos
 		JLabel CITCS_logo = new JLabel();
 		CITCS_logo.setIcon(new ImageIcon(Login.class.getResource("/img/citcs_logo.png")));
-		CITCS_logo.setBounds(24, 121, 70, 62);
+		CITCS_logo.setBounds(375, 172, 70, 62);
 		bgPanel.add(CITCS_logo);
 		
 		JLabel PLMUN_Logo = new JLabel();
 		PLMUN_Logo.setIcon(new ImageIcon(Login.class.getResource("/img/plmun_logo.png")));
-		PLMUN_Logo.setBounds(307, 130, 53, 53);
+		PLMUN_Logo.setBounds(105, 181, 53, 53);
 		bgPanel.add(PLMUN_Logo);
 		
 		JLabel PLMUN_CITCS = new JLabel("PLMUN - CITCS");
-		inter_extrabold.applyFont(PLMUN_CITCS, 24F, Color.white);
-		PLMUN_CITCS.setBounds(104, 121, 193, 62);
+		inter_extrabold.applyFont(PLMUN_CITCS, 26F, Color.white);
+		PLMUN_CITCS.setBounds(173, 178, 205, 53);
 		bgPanel.add(PLMUN_CITCS);
+		
+		JLabel LIBRARY = new JLabel("LIBRARY");
+		inter_black.applyFont(LIBRARY, 55F, Color.white);
+		LIBRARY.setBounds(150, 238, 256, 95);
+		bgPanel.add(LIBRARY);
+		
+		JLabel MANAGEMENT = new JLabel("MANAGEMENT");
+		inter_black.applyFont(MANAGEMENT, 55F, Color.white);
+		MANAGEMENT.setBounds(70, 300, 475, 95);
+		bgPanel.add(MANAGEMENT);
+		
+		JLabel SYSTEM = new JLabel("SYSTEM");
+		inter_black.applyFont(SYSTEM, 55F, Color.white);
+		SYSTEM.setBounds(150, 365, 256, 95);
+		bgPanel.add(SYSTEM);
 		
 	}
 }
