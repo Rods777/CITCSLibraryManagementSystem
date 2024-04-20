@@ -16,6 +16,7 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private GradientPanel bgPanel;
 	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
+	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	/**
 	 * Launch the application.
 	 */
@@ -65,6 +66,21 @@ public class Login extends JFrame {
 		inter_extrabold.applyFont(PLMUN_CITCS, 24F, Color.white);
 		PLMUN_CITCS.setBounds(104, 121, 193, 62);
 		bgPanel.add(PLMUN_CITCS);
+		
+		JLabel LIBRARY = new JLabel("LIBRARY");
+		inter_black.applyFont(LIBRARY, 50F, Color.white);
+		LIBRARY.setBounds(104, 259, 256, 95);
+		bgPanel.add(LIBRARY);
+		
+		JLabel MANAGEMENT = new JLabel("MANAGEMENT");
+		inter_black.applyFont(MANAGEMENT, 50F, Color.white);
+		MANAGEMENT.setBounds(24, 314, 400, 95);
+		bgPanel.add(MANAGEMENT);
+		
+		JLabel SYSTEM = new JLabel("SYSTEM");
+		inter_black.applyFont(SYSTEM, 50F, Color.white);
+		SYSTEM.setBounds(104, 370, 256, 95);
+		bgPanel.add(SYSTEM);
 		
 	}
 }
