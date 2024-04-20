@@ -1,5 +1,6 @@
 package guis;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,12 +9,12 @@ import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 
-public class Login extends JFrame {
+public class MainApp extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private GradientPanel bgPanel;
+	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf"); 
 
 	/**
 	 * Launch the application.
@@ -22,7 +23,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login frame = new Login();
+					MainApp frame = new MainApp();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,12 +35,11 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
-		setLocationRelativeTo(null);
+	public MainApp() {
+		setTitle("CITCS Library Management System");
 		setResizable(false);
-		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 680);
+		setBounds(100, 100, 1280, 730);
 		setLocationRelativeTo(null);
 		
 		// Gradient Background Panel
@@ -49,16 +49,12 @@ public class Login extends JFrame {
 		setContentPane(bgPanel);
 		bgPanel.setLayout(null);
 		
-		// Logos
-		JLabel CITCS_logo = new JLabel();
-		CITCS_logo.setIcon(new ImageIcon(Login.class.getResource("/img/citcs_logo.png")));
-		CITCS_logo.setBounds(104, 106, 70, 62);
-		bgPanel.add(CITCS_logo);
+		// Log out label
+		JLabel logoutLbl = new JLabel("Log out");
+		logoutLbl.setBounds(45, 618, 106, 45);
+		inter_bold.applyFont(logoutLbl, 24, Color.WHITE);
+		bgPanel.add(logoutLbl);
 		
-		JLabel PLMUN_Logo = new JLabel();
-		PLMUN_Logo.setIcon(new ImageIcon(Login.class.getResource("/img/plmun_logo.png")));
-		PLMUN_Logo.setBounds(236, 111, 53, 53);
-		bgPanel.add(PLMUN_Logo);
 		
 	}
 }
