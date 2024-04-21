@@ -2,9 +2,12 @@ package guis;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
@@ -14,9 +17,10 @@ import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
+	
 	private GradientPanel bgPanel;
 	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
@@ -24,6 +28,7 @@ public class Login extends JFrame {
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private RoundedTextField usernameTxt;
 	private RoundedPasswordField passwordTxt;
+	JCheckBox SHOWPASS;
 	/**
 	 * Launch the application.
 	 */
@@ -127,12 +132,13 @@ public class Login extends JFrame {
 		inter_regular.applyFont(passwordTxt, 20F, Color.BLACK);
 		LOGIN_PANEL.add(passwordTxt);
 		
-		JCheckBox SHOWPASS = new JCheckBox("Show Password");
+		SHOWPASS = new JCheckBox("Show Password");
 		SHOWPASS.setFocusable(false);
 		SHOWPASS.setOpaque(false);
 		SHOWPASS.setBounds(80, 375, 150, 25);
 		inter_regular.applyFont(SHOWPASS, 14F, Color.black);
 		LOGIN_PANEL.add(SHOWPASS);
+		SHOWPASS.addActionListener(this);
 		
 		RoundedButton LOGIN_BUTTON = new RoundedButton("LOGIN", 15, Color.decode("#195B29"));
 		LOGIN_BUTTON.setBounds(102, 443, 265, 55);
@@ -148,5 +154,22 @@ public class Login extends JFrame {
 		SIGN_UP_HERE.setBounds(282, 545, 120, 20);
 		inter_bold.applyFont(SIGN_UP_HERE, 16F, Color.black);
 		LOGIN_PANEL.add(SIGN_UP_HERE);
+	}
+	
+	// Functionalities for buttons
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		// Shows password
+		if(e.getSource() == SHOWPASS) {
+			if (SHOWPASS.isSelected()) {
+				passwordTxt.setEchoChar((char)0);
+			} else {
+				passwordTxt.setEchoChar('\u2022');
+			}
+		}
+		
+		
 	}
 }
