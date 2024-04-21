@@ -55,15 +55,16 @@ public class Signup extends JFrame implements ActionListener{
 		setBounds(100, 100, 1000, 680);
 	    setLocationRelativeTo(null);
 	    
-	    //gradient panel
+	    // Gradient panel
 		bgPanel = new GradientPanel();
 		bgPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		bgPanel.addColor(new ModelColor(CommonConstants.GRADIENT_START, 0f), new ModelColor(CommonConstants.GRADIENT_MID, 0.59f), new ModelColor(CommonConstants.GRADIENT_END, 1f));
 		setContentPane(bgPanel);
 		bgPanel.setLayout(null);
+		setContentPane(bgPanel);
 		
 		
-		//etong components is for the title 
+		// Components for the title 
 		JLabel CITCS_logo = new JLabel();
 		CITCS_logo.setIcon(new ImageIcon(Login.class.getResource("/img/citcs_logo.png")));
 		CITCS_logo.setBounds(375, 172, 70, 62);
@@ -139,15 +140,14 @@ public class Signup extends JFrame implements ActionListener{
 		confirmPass.setColumns(10);
 		inter_regular.applyFont(confirmPass, 17F, Color.black);
 		
-		 SHOWPASS = new JCheckBox("Show Password");
+		SHOWPASS = new JCheckBox("Show Password");
 		SHOWPASS.setBounds(70, 394, 150, 25);
 		SHOWPASS.setBackground(Color.WHITE);
 		inter_regular.applyFont(SHOWPASS, 14F, Color.black);
 		SIGNUP_PANEL.add(SHOWPASS);
 		SHOWPASS.addActionListener(this);
 		
-		
-		JButton SIGNUP_BUTTON = new JButton("LOGIN");
+		JButton SIGNUP_BUTTON = new JButton("SIGN UP");
 		SIGNUP_BUTTON.setBounds(95, 446, 265, 50);
 		inter_bold.applyFont(SIGNUP_BUTTON, 28F, Color.white);
 		SIGNUP_PANEL.add(SIGNUP_BUTTON);
@@ -161,21 +161,24 @@ public class Signup extends JFrame implements ActionListener{
 		LOGIN_HERE.setBounds(256, 545, 120, 20);
 		inter_bold.applyFont(LOGIN_HERE, 16F, Color.black);
 		SIGNUP_PANEL.add(LOGIN_HERE);
-		
-		
 
-		setContentPane(bgPanel);
 	}
-//functionalities for showing password
+	
+	// Functionalities for buttons
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (SHOWPASS.isSelected()) {
-			passField.setEchoChar((char)0);
-			confirmPass.setEchoChar((char)0);
-		}else {
-			passField.setEchoChar('\u2022');
-			confirmPass.setEchoChar('\u2022');
+		
+		// Shows password
+		if(e.getSource() == SHOWPASS) {
+			if (SHOWPASS.isSelected()) {
+				passField.setEchoChar((char)0);
+				confirmPass.setEchoChar((char)0);
+			} else {
+				passField.setEchoChar('\u2022');
+				confirmPass.setEchoChar('\u2022');
+			}
 		}
+		
 		
 	}
 
