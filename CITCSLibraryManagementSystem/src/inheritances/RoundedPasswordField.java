@@ -1,21 +1,20 @@
-package guis;
+package inheritances;
 
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
-public class RoundedTextField extends JTextField {
-	 /**
+public class RoundedPasswordField extends JPasswordField {
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private int radius;
 	 
-	 public RoundedTextField(int radius) {
+	 public RoundedPasswordField(int radius) {
 	        this.radius = radius;
 	        setOpaque(false);
 	    }

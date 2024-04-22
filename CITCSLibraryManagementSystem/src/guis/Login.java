@@ -11,6 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
+import inheritances.FontLoader;
+import inheritances.GradientPanel;
+import inheritances.ModelColor;
+import inheritances.RoundedButton;
+import inheritances.RoundedPasswordField;
+import inheritances.RoundedTextField;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;

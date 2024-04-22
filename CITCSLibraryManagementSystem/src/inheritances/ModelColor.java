@@ -1,4 +1,4 @@
-package guis;
+package inheritances;
 
 import java.awt.Color;
 
