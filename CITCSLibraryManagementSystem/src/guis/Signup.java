@@ -14,11 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import constants.CommonConstants;
 import inheritances.FontLoader;
 import inheritances.GradientPanel;
 import inheritances.ModelColor;
+import inheritances.RoundedButton;
+import inheritances.RoundedPasswordField;
+import inheritances.RoundedTextField;
 
 public class Signup extends JFrame implements ActionListener{
 
@@ -29,10 +33,12 @@ public class Signup extends JFrame implements ActionListener{
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private GradientPanel bgPanel;
-	private JTextField textField;
+	private RoundedTextField textField;
 	private JPasswordField passField;
 	private JPasswordField confirmPass;
+	
 	JCheckBox SHOWPASS;
+	
 
 	/**
 	 * Launch the application.
@@ -59,12 +65,14 @@ public class Signup extends JFrame implements ActionListener{
 	    setLocationRelativeTo(null);
 	    
 	    // Gradient panel
+	    
 		bgPanel = new GradientPanel();
 		bgPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		bgPanel.addColor(new ModelColor(CommonConstants.GRADIENT_START, 0f), new ModelColor(CommonConstants.GRADIENT_MID, 0.59f), new ModelColor(CommonConstants.GRADIENT_END, 1f));
 		setContentPane(bgPanel);
 		bgPanel.setLayout(null);
-		setContentPane(bgPanel);
+		
+		
 		
 		
 		// Components for the title 
@@ -115,8 +123,10 @@ public class Signup extends JFrame implements ActionListener{
 		inter_bold.applyFont(USERNAME, 20F, Color.black);
 		SIGNUP_PANEL.add(USERNAME);
 		
-		textField = new JTextField();
+		textField = new RoundedTextField(15);
+		textField.setBackground(Color.decode("#F2F2F2"));
 		textField.setBounds(69, 130, 310, 50);
+		textField.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		SIGNUP_PANEL.add(textField);
 		textField.setColumns(10);
 		inter_regular.applyFont(textField, 17F, Color.black); 
@@ -126,8 +136,10 @@ public class Signup extends JFrame implements ActionListener{
 		inter_bold.applyFont(PASSWORD, 20F, Color.BLACK);
 		SIGNUP_PANEL.add(PASSWORD);
 		
-		passField = new JPasswordField();
+		passField = new RoundedPasswordField(15);
+		passField.setBackground(Color.decode("#F2F2F2"));
 		passField.setBounds(69, 230, 310,50);
+		passField.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		SIGNUP_PANEL.add(passField);
 		passField.setColumns(10);
 		inter_regular.applyFont(passField, 17F, Color.black);
@@ -137,7 +149,9 @@ public class Signup extends JFrame implements ActionListener{
 		inter_bold.applyFont(CONFIRM_PASS, 20F, Color.BLACK);
 		SIGNUP_PANEL.add(CONFIRM_PASS);
 			
-		confirmPass = new JPasswordField();
+		confirmPass = new RoundedPasswordField(15);
+		confirmPass.setBackground(Color.decode("#F2F2F2"));
+		confirmPass.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		confirmPass.setBounds(69, 330, 310,50);
 		SIGNUP_PANEL.add(confirmPass);
 		confirmPass.setColumns(10);
@@ -150,7 +164,7 @@ public class Signup extends JFrame implements ActionListener{
 		SIGNUP_PANEL.add(SHOWPASS);
 		SHOWPASS.addActionListener(this);
 		
-		JButton SIGNUP_BUTTON = new JButton("SIGN UP");
+		JButton SIGNUP_BUTTON = new RoundedButton("SIGN UP",15, Color.decode("#195B29"));
 		SIGNUP_BUTTON.setBounds(95, 446, 265, 50);
 		inter_bold.applyFont(SIGNUP_BUTTON, 28F, Color.white);
 		SIGNUP_PANEL.add(SIGNUP_BUTTON);
@@ -161,7 +175,7 @@ public class Signup extends JFrame implements ActionListener{
 		SIGNUP_PANEL.add(ALREADYHAVE);
 		
 		JLabel LOGIN_HERE = new JLabel("Sign Up Here!");
-		LOGIN_HERE.setBounds(256, 545, 120, 20);
+		LOGIN_HERE.setBounds(263, 545, 120, 20);
 		inter_bold.applyFont(LOGIN_HERE, 16F, Color.black);
 		SIGNUP_PANEL.add(LOGIN_HERE);
 
