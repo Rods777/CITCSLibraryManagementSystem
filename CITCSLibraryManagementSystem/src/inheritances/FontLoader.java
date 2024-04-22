@@ -1,4 +1,4 @@
-package guis;
+package inheritances;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 public class FontLoader {
 	private Font font = null;
 	
-	FontLoader(String fontFilePath){
+	public FontLoader(String fontFilePath){
 		try {
 			// Load the font file
 			InputStream is = FontLoader.class.getResourceAsStream(fontFilePath);

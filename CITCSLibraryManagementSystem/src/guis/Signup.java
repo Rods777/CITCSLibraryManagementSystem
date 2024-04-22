@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
+import inheritances.FontLoader;
+import inheritances.GradientPanel;
+import inheritances.ModelColor;
 
 public class Signup extends JFrame implements ActionListener{
 
