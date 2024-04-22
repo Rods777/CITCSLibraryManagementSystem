@@ -34,7 +34,7 @@ public class BorrowedBooksPanel extends JPanel {
 		add(borrowedBooks);
 		
 		JLabel librarianIcon = new JLabel("");
-		librarianIcon.setIcon(new ImageIcon(DashboardPanel.class.getResource("/img/librarian-icon.png")));
+		librarianIcon.setIcon(new ImageIcon(DashboardPanel.class.getResource("/icons/librarian-icon.png")));
 		librarianIcon.setBounds(851, 32, 48, 48);
 		add(librarianIcon);
 		
