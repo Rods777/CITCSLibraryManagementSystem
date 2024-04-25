@@ -38,11 +38,11 @@ public class StudentsLogPanel extends JPanel {
 		librarianIcon.setBounds(851, 32, 48, 48);
 		add(librarianIcon);
 		
-		JLabel adminName = new JLabel("Admin");
+		JLabel adminName = new JLabel("Librarian Admin");
 		inter_bold.applyFont(adminName, 20f, CommonConstants.HEADER_COLOR);
-		adminName.setBounds(777, 45, 65, 25);
+		adminName.setBounds(690, 45, 159, 25);
 		add(adminName);
-
+		
 	}
 	
 	// Override method for border radius

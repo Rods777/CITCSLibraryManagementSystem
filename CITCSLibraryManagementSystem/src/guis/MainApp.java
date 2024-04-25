@@ -30,12 +30,14 @@ public class MainApp extends JFrame implements MouseListener {
 	private RoundedPanel bookListNav;
 	private RoundedPanel borrowedBooksNav;
 	private RoundedPanel returnedBooksNav;
+	private RoundedPanel overdueBooksNav; 
 	private JPanel contentPanel;
 	private JLabel home;
 	private JLabel studentsLog;
 	private JLabel bookList;
 	private JLabel borrowedBooks;
 	private JLabel returnedBooks;
+	private JLabel overdueBooks;
 
 	/**
 	 * Launch the application.
@@ -98,11 +100,15 @@ public class MainApp extends JFrame implements MouseListener {
 		ReturnedBooksPanel returnedBooksPanel = new ReturnedBooksPanel();
 		contentPanel.add(returnedBooksPanel, "returnedBooksPanel");
 		
+		// Returned Books Panel
+		OverdueBooksPanel overdueBooksPanel = new OverdueBooksPanel();
+		contentPanel.add(overdueBooksPanel, "overdueBooksPanel");
+		
 		// Navigation
 		homeNav = new RoundedPanel(15);
 		homeNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		homeNav.addMouseListener(this);
-		homeNav.setBounds(22, 151, 338, 56);
+		homeNav.setBounds(22, 141, 338, 56);
 		homeNav.setBackground(Color.WHITE);
 		bgPanel.add(homeNav);
 		homeNav.setLayout(null);
@@ -115,7 +121,7 @@ public class MainApp extends JFrame implements MouseListener {
 		studentLogNav = new RoundedPanel(15);
 		studentLogNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		studentLogNav.addMouseListener(this);
-		studentLogNav.setBounds(22, 218, 338, 56);
+		studentLogNav.setBounds(22, 211, 338, 56);
 		studentLogNav.setBackground(new Color(0, 0, 0, 0));
 		bgPanel.add(studentLogNav);
 		studentLogNav.setLayout(null);
@@ -128,7 +134,7 @@ public class MainApp extends JFrame implements MouseListener {
 		bookListNav = new RoundedPanel(15);
 		bookListNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		bookListNav.addMouseListener(this);
-		bookListNav.setBounds(22, 285, 338, 56);
+		bookListNav.setBounds(22, 281, 338, 56);
 		bookListNav.setBackground(new Color(0, 0, 0, 0));
 		bgPanel.add(bookListNav);
 		bookListNav.setLayout(null);
@@ -141,7 +147,7 @@ public class MainApp extends JFrame implements MouseListener {
 		borrowedBooksNav = new RoundedPanel(15);
 		borrowedBooksNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		borrowedBooksNav.addMouseListener(this);
-		borrowedBooksNav.setBounds(22, 352, 338, 56);
+		borrowedBooksNav.setBounds(22, 351, 338, 56);
 		borrowedBooksNav.setBackground(new Color(0, 0, 0, 0));
 		bgPanel.add(borrowedBooksNav);
 		borrowedBooksNav.setLayout(null);
@@ -154,7 +160,7 @@ public class MainApp extends JFrame implements MouseListener {
 		returnedBooksNav = new RoundedPanel(15);
 		returnedBooksNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		returnedBooksNav.addMouseListener(this);
-		returnedBooksNav.setBounds(22, 419, 338, 56);
+		returnedBooksNav.setBounds(22, 421, 338, 56);
 		returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
 		bgPanel.add(returnedBooksNav);
 		returnedBooksNav.setLayout(null);
@@ -163,6 +169,20 @@ public class MainApp extends JFrame implements MouseListener {
 		inter_bold.applyFont(returnedBooks, 20f, Color.WHITE);
 		returnedBooks.setBounds(20, 5, 243, 45);
 		returnedBooksNav.add(returnedBooks);
+		
+		overdueBooksNav = new RoundedPanel(15);
+		overdueBooksNav.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		overdueBooksNav.setLayout(null);
+		overdueBooksNav.addMouseListener(this);
+		overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+		overdueBooksNav.setBounds(22, 488, 338, 56);
+		overdueBooksNav.setLayout(null);
+		bgPanel.add(overdueBooksNav);
+		
+		overdueBooks = new JLabel("Overdue Books");
+		inter_bold.applyFont(overdueBooks, 20f, Color.WHITE);
+		overdueBooks.setBounds(20, 5, 243, 45);
+		overdueBooksNav.add(overdueBooks);
 		
 		// Log out label
 		JLabel logoutLbl = new JLabel("Log out");
@@ -192,6 +212,9 @@ public class MainApp extends JFrame implements MouseListener {
 			returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
 			returnedBooks.setForeground(Color.WHITE);
 			
+			overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+			overdueBooks.setForeground(Color.WHITE);
+			
 			cardLayout.show(contentPanel, "homeDashboardPanel");
 		}
 		if(e.getSource() == studentLogNav) {
@@ -209,6 +232,9 @@ public class MainApp extends JFrame implements MouseListener {
 			
 			returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
 			returnedBooks.setForeground(Color.WHITE);
+			
+			overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+			overdueBooks.setForeground(Color.WHITE);
 
 			cardLayout.show(contentPanel, "studentsLogPanel");
 		}
@@ -228,6 +254,9 @@ public class MainApp extends JFrame implements MouseListener {
 			returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
 			returnedBooks.setForeground(Color.WHITE);
 			
+			overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+			overdueBooks.setForeground(Color.WHITE);
+			
 			cardLayout.show(contentPanel, "bookListPanel");
 		}
 		if(e.getSource() == borrowedBooksNav) {
@@ -245,6 +274,9 @@ public class MainApp extends JFrame implements MouseListener {
 			
 			returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
 			returnedBooks.setForeground(Color.WHITE);
+			
+			overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+			overdueBooks.setForeground(Color.WHITE);
 			
 			cardLayout.show(contentPanel, "borrowedBooksPanel");
 		}
@@ -264,7 +296,31 @@ public class MainApp extends JFrame implements MouseListener {
 			homeNav.setBackground(new Color(0, 0, 0, 0));
 			home.setForeground(Color.WHITE);
 			
+			overdueBooksNav.setBackground(new Color(0, 0, 0, 0));
+			overdueBooks.setForeground(Color.WHITE);
+			
 			cardLayout.show(contentPanel, "returnedBooksPanel");
+		}	
+		if(e.getSource() == overdueBooksNav) {
+			overdueBooksNav.setBackground(Color.WHITE);
+			overdueBooks.setForeground(Color.BLACK);
+			
+			studentLogNav.setBackground(new Color(0, 0, 0, 0));
+			studentsLog.setForeground(Color.WHITE);
+			
+			bookListNav.setBackground(new Color(0, 0, 0, 0));
+			bookList.setForeground(Color.WHITE);
+			
+			borrowedBooksNav.setBackground(new Color(0, 0, 0, 0));
+			borrowedBooks.setForeground(Color.WHITE);
+			
+			homeNav.setBackground(new Color(0, 0, 0, 0));
+			home.setForeground(Color.WHITE);
+			
+			returnedBooksNav.setBackground(new Color(0, 0, 0, 0));
+			returnedBooks.setForeground(Color.WHITE);
+			
+			cardLayout.show(contentPanel, "overdueBooksPanel");
 		}	
 	}
 
