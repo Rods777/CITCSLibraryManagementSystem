@@ -24,7 +24,7 @@ public class BorrowedBooksPanel extends JPanel {
 	 */
 	public BorrowedBooksPanel() {
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(953, 676)); // Set size relative to contentPanel
+		setPreferredSize(new Dimension(953, 682)); // Set size relative to contentPanel
 		setLayout(null);
 		
 		// Header
