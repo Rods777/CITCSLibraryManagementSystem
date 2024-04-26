@@ -37,7 +37,7 @@ public class PanelTester extends JFrame {
 	 */
 	public PanelTester() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 700);
+		setBounds(100, 100, 1000, 730);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 102, 51));
@@ -49,7 +49,7 @@ public class PanelTester extends JFrame {
 		// Change the Class and constructor for testing Panel
 		// ex. DashboardPanel panel = new DashboardPanel();
 		
-		DashboardPanel panel = new DashboardPanel();
+		BookListPanel panel = new BookListPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 	}
 

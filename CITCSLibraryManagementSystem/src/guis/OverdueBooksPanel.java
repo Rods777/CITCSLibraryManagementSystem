@@ -27,7 +27,7 @@ public class OverdueBooksPanel extends JPanel {
 	 */
 	public OverdueBooksPanel() {
 		setBackground(Color.WHITE);
-		setPreferredSize(new Dimension(953, 676)); // Set size relative to contentPanel
+		setPreferredSize(new Dimension(953, 682)); // Set size relative to contentPanel
 		setLayout(null);
 		
 		// Header

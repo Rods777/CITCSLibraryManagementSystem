@@ -86,7 +86,7 @@ public class StudentsLogPanel extends JPanel {
 		//Student's Details Panel
 		
 		studentDetailsPanel = new RoundedPanel(44);
-		studentDetailsPanel.setBounds(34, 393, 887, 232);
+		studentDetailsPanel.setBounds(34, 417, 887, 232);
 		studentDetailsPanel.setBackground(new Color(216,216,216));
 		add(studentDetailsPanel);
 		studentDetailsPanel.setLayout(null);
@@ -97,53 +97,53 @@ public class StudentsLogPanel extends JPanel {
 		studentDetailsPanel.add(StudentDetails);
 		
 		JLabel StudentNumber = new JLabel("Student No.: ");
-		StudentNumber.setBounds(77, 68, 183, 38);
+		StudentNumber.setBounds(37, 68, 183, 38);
 		inter_bold.applyFont(StudentNumber, 15F, Color.black);
 		studentDetailsPanel.add(StudentNumber);
 		
 		JLabel StudentName = new JLabel("Student Name: ");
-		StudentName.setBounds(77, 103, 183, 38);
+		StudentName.setBounds(37, 103, 183, 38);
 		inter_bold.applyFont(StudentName, 15F, Color.black);
 		studentDetailsPanel.add(StudentName);
 		
 		JLabel Gender = new JLabel("Gender: ");
-		Gender.setBounds(77, 143, 186, 27);
+		Gender.setBounds(37, 143, 186, 27);
 		inter_bold.applyFont(Gender, 15F, Color.black);
 		studentDetailsPanel.add(Gender);
 		
 		JLabel Department = new JLabel("Department: ");
-		Department.setBounds(320, 68, 138, 38);
+		Department.setBounds(334, 68, 138, 38);
 		inter_bold.applyFont(Department, 15F, Color.black);
 		studentDetailsPanel.add(Department);
 		
 		JLabel TimeIn = new JLabel("Time In: ");
-		TimeIn.setBounds(320, 103, 138, 38);
+		TimeIn.setBounds(334, 103, 138, 38);
 		inter_bold.applyFont(TimeIn, 15F, Color.black);
 		studentDetailsPanel.add(TimeIn);
 		
-		//Values (sample lang yung nilagay ko based sa Figma)
+		// Values 
 		JLabel StudentNumberNoValue = new JLabel("1");
-		StudentNumberNoValue.setBounds(170, 80, 50, 14);
+		StudentNumberNoValue.setBounds(130, 80, 50, 14);
 		inter_regular.applyFont(StudentNumberNoValue, 15F, Color.black);
 		studentDetailsPanel.add(StudentNumberNoValue);
 		
 		JLabel StudentNameNoValue = new JLabel("Bok Wan");
-		StudentNameNoValue.setBounds(190, 115, 160, 14);
+		StudentNameNoValue.setBounds(150, 115, 160, 14);
 		inter_regular.applyFont(StudentNameNoValue, 15F, Color.black);
 		studentDetailsPanel.add(StudentNameNoValue);
 		
 		JLabel GenderNoValue = new JLabel("Male");
-		GenderNoValue.setBounds(140, 149, 50, 14);
+		GenderNoValue.setBounds(100, 149, 50, 14);
 		inter_regular.applyFont(GenderNoValue, 15F, Color.black);
 		studentDetailsPanel.add(GenderNoValue);
 		
 		JLabel DepartmentNoValue = new JLabel("CITCS");
-		DepartmentNoValue.setBounds(415, 80, 50, 14);
+		DepartmentNoValue.setBounds(429, 80, 50, 14);
 		inter_regular.applyFont(DepartmentNoValue, 15F, Color.black);
 		studentDetailsPanel.add(DepartmentNoValue);
 		
 		JLabel TimeInNoValue = new JLabel("2024-11-11 13:23:34");
-		TimeInNoValue.setBounds(380, 115, 160, 14);
+		TimeInNoValue.setBounds(394, 115, 160, 14);
 		inter_regular.applyFont(TimeInNoValue, 15F, Color.black);
 		studentDetailsPanel.add(TimeInNoValue);
 		

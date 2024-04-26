@@ -11,4 +11,8 @@ public class CommonConstants {
 	
 	// Color for header
 	public static final Color HEADER_COLOR = Color.decode("#0E5332");
+	
+	// Color for buttons
+	public static final Color EDIT_BUTTON = Color.decode("#0060CC");
+	public static final Color DELETE_BUTTON = Color.decode("#E74343");
 }

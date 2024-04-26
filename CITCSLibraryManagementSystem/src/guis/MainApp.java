@@ -75,7 +75,7 @@ public class MainApp extends JFrame implements MouseListener {
 		
 		// Main Contents
 		contentPanel = new JPanel();
-		contentPanel.setBounds(292, 7, 953, 676);
+		contentPanel.setBounds(292, 7, 953, 682);
 		contentPanel.setOpaque(false);
 		contentPanel.setLayout(cardLayout);
 		bgPanel.add(contentPanel);
