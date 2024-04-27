@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -18,6 +16,7 @@ import inheritances.FontLoader;
 import inheritances.RoundedPanel;
 import inheritances.RoundedButton;
 import inheritances.RoundedTextField;
+import javax.swing.JTextArea;
 
 public class StudentsLogPanel extends JPanel {
 
@@ -58,35 +57,23 @@ public class StudentsLogPanel extends JPanel {
 		add(AddLogButton);
 		
 		SearchBar = new RoundedTextField(15);
+		SearchBar.setPlaceholder("Search...");
 		SearchBar.setBounds(40, 117, 159, 32);
 		SearchBar.setBackground(Color.decode("#D9D9D9"));
 		SearchBar.setBorder(new LineBorder(new Color(171, 173, 179), 5));
-		SearchBar.setText("Search...");
-		SearchBar.setForeground(Color.decode("#797878"));
-		SearchBar.addFocusListener(new FocusListener(){
-		    @Override
-		    public void focusGained(FocusEvent event) {
-		        if (SearchBar.getText().equals("Search...")) {
-		            SearchBar.setText("");
-		            SearchBar.setForeground(Color.BLACK);
-		        }
-		    }
-
-		    @Override
-		    public void focusLost(FocusEvent event) {
-		        if (SearchBar.getText().equals("")) {
-		            SearchBar.setText("Search...");
-		            SearchBar.setForeground(Color.decode("#797878"));
-		        }
-		    }
-		});
 		add(SearchBar);
 		SearchBar.setColumns(10);
+		
+		RoundedButton SearchButton = new RoundedButton("", 10, Color.decode("#569FF0"));
+		SearchButton.setIcon(new ImageIcon(StudentsLogPanel.class.getResource("/icons/search-iconpng.png")));
+		SearchButton.setBounds(200, 117, 38, 32);
+		add(SearchButton);
+		
 		
 		//Student's Details Panel
 		
 		studentDetailsPanel = new RoundedPanel(44);
-		studentDetailsPanel.setBounds(34, 417, 887, 232);
+		studentDetailsPanel.setBounds(34, 418, 887, 232);
 		studentDetailsPanel.setBackground(new Color(216,216,216));
 		add(studentDetailsPanel);
 		studentDetailsPanel.setLayout(null);
@@ -97,72 +84,78 @@ public class StudentsLogPanel extends JPanel {
 		studentDetailsPanel.add(StudentDetails);
 		
 		JLabel StudentNumber = new JLabel("Student No.: ");
-		StudentNumber.setBounds(37, 68, 183, 38);
+		StudentNumber.setBounds(62, 63, 183, 38);
 		inter_bold.applyFont(StudentNumber, 15F, Color.black);
 		studentDetailsPanel.add(StudentNumber);
 		
 		JLabel StudentName = new JLabel("Student Name: ");
-		StudentName.setBounds(37, 103, 183, 38);
+		StudentName.setBounds(62, 110, 183, 38);
 		inter_bold.applyFont(StudentName, 15F, Color.black);
 		studentDetailsPanel.add(StudentName);
 		
 		JLabel Gender = new JLabel("Gender: ");
-		Gender.setBounds(37, 143, 186, 27);
+		Gender.setBounds(331, 69, 186, 27);
 		inter_bold.applyFont(Gender, 15F, Color.black);
 		studentDetailsPanel.add(Gender);
 		
 		JLabel Department = new JLabel("Department: ");
-		Department.setBounds(334, 68, 138, 38);
+		Department.setBounds(331, 110, 183, 38);
 		inter_bold.applyFont(Department, 15F, Color.black);
 		studentDetailsPanel.add(Department);
 		
 		JLabel TimeIn = new JLabel("Time In: ");
-		TimeIn.setBounds(334, 103, 138, 38);
+		TimeIn.setBounds(331, 164, 64, 27);
 		inter_bold.applyFont(TimeIn, 15F, Color.black);
 		studentDetailsPanel.add(TimeIn);
 		
 		// Values 
 		JLabel StudentNumberNoValue = new JLabel("1");
-		StudentNumberNoValue.setBounds(130, 80, 50, 14);
+		StudentNumberNoValue.setBounds(62, 91, 50, 14);
 		inter_regular.applyFont(StudentNumberNoValue, 15F, Color.black);
 		studentDetailsPanel.add(StudentNumberNoValue);
 		
-		JLabel StudentNameNoValue = new JLabel("Bok Wan");
-		StudentNameNoValue.setBounds(150, 115, 160, 14);
+		JTextArea StudentNameNoValue = new JTextArea("Bok Wan Two Three Four Five Six Seven Eight");
+		StudentNameNoValue.setWrapStyleWord(true);
+		StudentNameNoValue.setLineWrap(true);
+		StudentNameNoValue.setFocusable(false);
+		StudentNameNoValue.setEditable(false);
+		StudentNameNoValue.setBounds(61, 135, 200, 80);
+		StudentNameNoValue.setBackground(new Color(216, 216, 216));
 		inter_regular.applyFont(StudentNameNoValue, 15F, Color.black);
 		studentDetailsPanel.add(StudentNameNoValue);
 		
 		JLabel GenderNoValue = new JLabel("Male");
-		GenderNoValue.setBounds(100, 149, 50, 14);
+		GenderNoValue.setBounds(331, 91, 50, 14);
 		inter_regular.applyFont(GenderNoValue, 15F, Color.black);
 		studentDetailsPanel.add(GenderNoValue);
 		
 		JLabel DepartmentNoValue = new JLabel("CITCS");
-		DepartmentNoValue.setBounds(429, 80, 50, 14);
+		DepartmentNoValue.setBounds(331, 140, 50, 14);
 		inter_regular.applyFont(DepartmentNoValue, 15F, Color.black);
 		studentDetailsPanel.add(DepartmentNoValue);
 		
 		JLabel TimeInNoValue = new JLabel("2024-11-11 13:23:34");
-		TimeInNoValue.setBounds(394, 115, 160, 14);
+		TimeInNoValue.setBounds(331, 190, 160, 14);
 		inter_regular.applyFont(TimeInNoValue, 15F, Color.black);
 		studentDetailsPanel.add(TimeInNoValue);
 		
 		//Action Label and Buttons
 		
 		JLabel Actions = new JLabel("Actions:");
-		Actions.setBounds(636, 138, 186, 27);
+		Actions.setBounds(648, 21, 186, 27);
 		inter_bold.applyFont(Actions, 20F, Color.black);
 		studentDetailsPanel.add(Actions);
 	
 		RoundedButton EditLogButton = new RoundedButton("Edit Log", 13, Color.decode("#0060CC"));
-		EditLogButton.setBounds(636, 169, 100, 35);
+		EditLogButton.setBounds(730, 70, 110, 35);
 		inter_bold.applyFont(EditLogButton, 14F, Color.white);
 		studentDetailsPanel.add(EditLogButton);
 		
 		RoundedButton DeleteLogButton = new RoundedButton("Delete Log", 13, Color.decode("#E74343"));
-		DeleteLogButton.setBounds(752, 169, 110, 35);
+		DeleteLogButton.setBounds(730, 134, 110, 35);
 		inter_bold.applyFont(DeleteLogButton, 14F, Color.white);
 		studentDetailsPanel.add(DeleteLogButton);		
+		
 		
 	}
 	
