@@ -167,28 +167,11 @@ public class BookListPanel extends JPanel {
 		add(AddBookButton);
 		
 		search = new RoundedTextField(10);
-		search.setText("Search...");
-		inter_regular.applyFont(search, 14f, Color.decode("#797878"));
+		search.setPlaceholder("Search...");
+		inter_regular.applyFont(search, 14f, Color.BLACK);
 		search.setBackground(new Color(220, 220, 220));
 		search.setBounds(43, 123, 159, 32);
 		search.setBorder(new LineBorder(new Color(171, 173, 179), 5));
-		search.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-		        if (search.getText().equals("Search...")) {
-		            search.setText("");
-		            search.setForeground(Color.BLACK);
-		        }
-		    }
-
-		    @Override
-		    public void focusLost(FocusEvent event) {
-		        if (search.getText().isEmpty()) {
-		            search.setText("Search...");
-		            search.setForeground(Color.decode("#797878"));
-		        }
-			}
-		});
 		add(search);
 		
 		RoundedButton btnNewButton = new RoundedButton("", 10, Color.decode("#569FF0"));
