@@ -19,7 +19,7 @@ public class RoundedTextField extends JTextField {
 	        this.radius = radius;
 	        setOpaque(false);
 	    }
-
+	 	
 	    @Override
 	    protected void paintComponent(Graphics g) {
 	        Graphics2D graphics = (Graphics2D) g.create();

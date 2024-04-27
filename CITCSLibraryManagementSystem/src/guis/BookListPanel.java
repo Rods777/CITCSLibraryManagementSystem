@@ -15,6 +15,9 @@ import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedPanel;
 import javax.swing.JTextArea;
+import inheritances.RoundedTextField;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.JButton;
 
 public class BookListPanel extends JPanel {
@@ -23,6 +26,7 @@ public class BookListPanel extends JPanel {
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
+	private RoundedTextField search;
 
 	/**
 	 * Create the panel.
@@ -159,6 +163,35 @@ public class BookListPanel extends JPanel {
 		inter_bold.applyFont(AddBookButton, 14f, Color.WHITE);
 		AddBookButton.setBounds(824, 123, 106, 33);
 		add(AddBookButton);
+		
+		search = new RoundedTextField(10);
+		search.setText("Search...");
+		search.setForeground(new Color(0, 0, 0, 0));
+		search.setBackground(new Color(220, 220, 220));
+		search.setBounds(43, 123, 159, 32);
+		search.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+		        if (search.getText().equals("Search...")) {
+		            search.setText("");
+		            search.setForeground(Color.BLACK);
+		        }
+		    }
+
+		    @Override
+		    public void focusLost(FocusEvent event) {
+		        if (search.getText().equals("")) {
+		            search.setText("Search...");
+		            search.setForeground(Color.decode("#797878"));
+		        }
+			}
+		});
+		add(search);
+		
+		RoundedButton btnNewButton = new RoundedButton("", 10, Color.decode("#569FF0"));
+		btnNewButton.setIcon(new ImageIcon(BookListPanel.class.getResource("/icons/search-iconpng.png")));
+		btnNewButton.setBounds(204, 123, 38, 33);
+		add(btnNewButton);
 		
 		
 	}

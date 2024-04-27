@@ -173,7 +173,6 @@ public class BorrowedBooksPanel extends JPanel {
 		pending.setBounds(90, 133, 70, 20);
 		inter_regular.applyFont(pending, 15F, Color.black);
 		studentDetailsPanel.add(pending);
-		
 
 	}
 	
