@@ -5,8 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -16,9 +19,12 @@ import inheritances.FontLoader;
 import inheritances.RoundedPanel;
 import inheritances.RoundedButton;
 import inheritances.RoundedTextField;
+import modals.AddLogModal;
+import modals.EditLogModal;
+
 import javax.swing.JTextArea;
 
-public class StudentsLogPanel extends JPanel {
+public class StudentsLogPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
@@ -26,6 +32,8 @@ public class StudentsLogPanel extends JPanel {
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private RoundedPanel studentDetailsPanel; 
 	private RoundedTextField SearchBar;
+	private RoundedButton AddLogButton;
+	private RoundedButton EditLogButton;
 
 	/**
 	 * Create the panel.
@@ -51,7 +59,8 @@ public class StudentsLogPanel extends JPanel {
 		adminName.setBounds(690, 45, 159, 25);
 		add(adminName);
 		
-		RoundedButton AddLogButton = new RoundedButton ("Add Log",13, Color.decode("#429737"));
+		AddLogButton = new RoundedButton ("Add Log",13, Color.decode("#429737"));
+		AddLogButton.addActionListener(this);
 		AddLogButton.setBounds(824, 117, 97, 33);
 		inter_bold.applyFont(AddLogButton, 14F, Color.white);
 		add(AddLogButton);
@@ -59,6 +68,7 @@ public class StudentsLogPanel extends JPanel {
 		SearchBar = new RoundedTextField(15);
 		SearchBar.setPlaceholder("Search...");
 		SearchBar.setBounds(40, 117, 159, 32);
+		inter_regular.applyFont(SearchBar, 15F, Color.black);
 		SearchBar.setBackground(Color.decode("#D9D9D9"));
 		SearchBar.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		add(SearchBar);
@@ -119,7 +129,7 @@ public class StudentsLogPanel extends JPanel {
 		StudentNameNoValue.setLineWrap(true);
 		StudentNameNoValue.setFocusable(false);
 		StudentNameNoValue.setEditable(false);
-		StudentNameNoValue.setBounds(61, 135, 200, 80);
+		StudentNameNoValue.setBounds(62, 139, 200, 80);
 		StudentNameNoValue.setBackground(new Color(216, 216, 216));
 		inter_regular.applyFont(StudentNameNoValue, 15F, Color.black);
 		studentDetailsPanel.add(StudentNameNoValue);
@@ -146,7 +156,8 @@ public class StudentsLogPanel extends JPanel {
 		inter_bold.applyFont(Actions, 20F, Color.black);
 		studentDetailsPanel.add(Actions);
 	
-		RoundedButton EditLogButton = new RoundedButton("Edit Log", 13, Color.decode("#0060CC"));
+		EditLogButton = new RoundedButton("Edit Log", 13, Color.decode("#0060CC"));
+		EditLogButton.addActionListener(this);
 		EditLogButton.setBounds(730, 70, 110, 35);
 		inter_bold.applyFont(EditLogButton, 14F, Color.white);
 		studentDetailsPanel.add(EditLogButton);
@@ -168,4 +179,22 @@ public class StudentsLogPanel extends JPanel {
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 100, 100);
         g2d.dispose();
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Button Functions for Modals
+		if(e.getSource() == AddLogButton) {
+			AddLogModal frame = new AddLogModal();
+			frame.setLocationRelativeTo(null);
+			frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
+		}
+		if(e.getSource() == EditLogButton) {
+			EditLogModal frame = new EditLogModal();
+			frame.setLocationRelativeTo(null);
+			frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			frame.setVisible(true);
+		}
+		
+	}
 }
