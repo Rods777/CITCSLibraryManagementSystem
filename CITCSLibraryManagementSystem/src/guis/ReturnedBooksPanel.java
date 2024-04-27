@@ -53,6 +53,7 @@ public class ReturnedBooksPanel extends JPanel {
 
 		SearchBar = new RoundedTextField(15);
 		SearchBar.setPlaceholder("Search...");
+		inter_regular.applyFont(SearchBar, 14f, Color.BLACK);
 		SearchBar.setBounds(40, 117, 159, 32);
 		SearchBar.setBackground(Color.decode("#D9D9D9"));
 		SearchBar.setBorder(new LineBorder(new Color(171, 173, 179), 5));

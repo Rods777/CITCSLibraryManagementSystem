@@ -184,16 +184,16 @@ public class StudentsLogPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Button Functions for Modals
 		if(e.getSource() == AddLogButton) {
-			AddLogModal frame = new AddLogModal();
-			frame.setLocationRelativeTo(null);
-			frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			frame.setVisible(true);
+			AddLogModal modal = new AddLogModal();
+			modal.setLocationRelativeTo(null);
+			modal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			modal.setVisible(true);
 		}
 		if(e.getSource() == EditLogButton) {
-			EditLogModal frame = new EditLogModal();
-			frame.setLocationRelativeTo(null);
-			frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			frame.setVisible(true);
+			EditLogModal modal = new EditLogModal();
+			modal.setLocationRelativeTo(null);
+			modal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			modal.setVisible(true);
 		}
 		
 	}

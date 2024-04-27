@@ -5,8 +5,11 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -18,17 +21,20 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import inheritances.RoundedTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.JButton;
+import modals.AddBookModal;
+import modals.EditBookModal;
+import modals.ViewBookModal;
 
-public class BookListPanel extends JPanel {
+public class BookListPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private RoundedTextField search;
+	private RoundedButton AddBookButton;
+	private RoundedButton editBookButton;
+	private RoundedButton viewMoreButton;
 
 	/**
 	 * Create the panel.
@@ -146,12 +152,14 @@ public class BookListPanel extends JPanel {
 		
 		
 		// Action Buttons
-		RoundedButton viewMoreButton = new RoundedButton("View More", 15, Color.WHITE);
+		viewMoreButton = new RoundedButton("View More", 15, Color.WHITE);
+		viewMoreButton.addActionListener(this);
 		inter_bold.applyFont(viewMoreButton, 14f, Color.BLACK);
 		viewMoreButton.setBounds(705, 66, 116, 35);
 		bookDetailsPanel.add(viewMoreButton);
 		
-		RoundedButton editBookButton = new RoundedButton("Edit Book", 15, CommonConstants.EDIT_BUTTON);
+		editBookButton = new RoundedButton("Edit Book", 15, CommonConstants.EDIT_BUTTON);
+		editBookButton.addActionListener(this);
 		inter_bold.applyFont(editBookButton, 14f, Color.WHITE);
 		editBookButton.setBounds(705, 112, 116, 35);
 		bookDetailsPanel.add(editBookButton);
@@ -161,7 +169,8 @@ public class BookListPanel extends JPanel {
 		deleteBookButton.setBounds(704, 162, 117, 35);
 		bookDetailsPanel.add(deleteBookButton);
 		
-		RoundedButton AddBookButton = new RoundedButton("Add Book", 13, new Color(66, 151, 55));
+		AddBookButton = new RoundedButton("Add Book", 13, new Color(66, 151, 55));
+		AddBookButton.addActionListener(this);
 		inter_bold.applyFont(AddBookButton, 14f, Color.WHITE);
 		AddBookButton.setBounds(824, 123, 106, 33);
 		add(AddBookButton);
@@ -191,4 +200,27 @@ public class BookListPanel extends JPanel {
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 100, 100);
         g2d.dispose();
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Methods
+		if(e.getSource() == AddBookButton) {
+			AddBookModal modal = new AddBookModal();
+			modal.setLocationRelativeTo(null);
+			modal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			modal.setVisible(true);
+		}
+		if(e.getSource() == editBookButton) {
+			EditBookModal modal = new EditBookModal();
+			modal.setLocationRelativeTo(null);
+			modal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			modal.setVisible(true);
+		}
+		if(e.getSource() == viewMoreButton) {
+			ViewBookModal modal = new ViewBookModal();
+			modal.setLocationRelativeTo(null);
+			modal.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			modal.setVisible(true);
+		}
+	}
 }
