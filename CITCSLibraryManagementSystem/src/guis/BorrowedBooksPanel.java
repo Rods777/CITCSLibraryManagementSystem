@@ -19,6 +19,8 @@ import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedPanel;
 import inheritances.RoundedTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BorrowedBooksPanel extends JPanel {
 
@@ -57,19 +59,23 @@ public class BorrowedBooksPanel extends JPanel {
 		
 		search = new RoundedTextField(10);
 		search.setPlaceholder("Search...");
+		search.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		inter_regular.applyFont(search, 14f, Color.BLACK);
 		search.setBackground(new Color(220, 220, 220));
-		search.setBounds(80, 117, 159, 32);
-		search.setBorder(new LineBorder(new Color(0,0,0,0)));
+		search.setBounds(34, 117, 159, 32);
 		add(search);
 		//adding icon on searchbutton
 		RoundedButton searchBut = new RoundedButton("", 10, Color.decode("#569FF0"));
+		searchBut.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		searchBut.setIcon(new ImageIcon(BookListPanel.class.getResource("/icons/search-iconpng.png")));
-		searchBut.setBounds(240, 117, 38, 32);
+		searchBut.setBounds(196, 117, 38, 32);
 		add(searchBut);
 		
 		qrCodePanel = new RoundedPanel(60);
-		qrCodePanel.setBounds(80,385, 214,233);
+		qrCodePanel.setBounds(34,385, 214,233);
 		qrCodePanel.setBackground(new Color(216,216,216));
 		add(qrCodePanel);
 		qrCodePanel.setLayout(null);
@@ -79,13 +85,38 @@ public class BorrowedBooksPanel extends JPanel {
 		inter_bold.applyFont(scanLabel, 20F, Color.black);
 		qrCodePanel.add(scanLabel);
 		
+		JLabel ScanLogo = new JLabel("");
+		ScanLogo.setIcon(new ImageIcon(BorrowedBooksPanel.class.getResource("/icons/qr-code-scan.png")));
+		ScanLogo.setBounds(33, 24, 148, 148);
+		qrCodePanel.add(ScanLogo);
 		
 		
-		studentDetailsPanel = new RoundedPanel(20);
-		studentDetailsPanel.setBounds(325, 385, 620, 270);
+		
+		studentDetailsPanel = new RoundedPanel(40);
+		studentDetailsPanel.setBounds(258, 385, 655, 270);
 		studentDetailsPanel.setBackground(new Color(216,216,216));
 		add(studentDetailsPanel);
 		studentDetailsPanel.setLayout(null);
+		
+		JLabel lblBorrowNo = new JLabel("Borrow No.:");
+		inter_bold.applyFont(lblBorrowNo, 15F, Color.black);
+		lblBorrowNo.setBounds(500, 15, 108, 27);
+		studentDetailsPanel.add(lblBorrowNo);
+		
+		JLabel BorrowNumberNoValue = new JLabel("1");
+		BorrowNumberNoValue.setBounds(596, 15, 31, 27);
+		inter_regular.applyFont(BorrowNumberNoValue, 15f, Color.black);
+		studentDetailsPanel.add(BorrowNumberNoValue);
+		
+		JLabel bookAuthor = new JLabel("Book Author");
+		bookAuthor.setBounds(24, 147, 183,27);
+		inter_bold.applyFont(bookAuthor, 13F, Color.black);
+		studentDetailsPanel.add(bookAuthor);
+		
+		JLabel category = new JLabel("Category:");
+		category.setBounds(24, 205, 138, 20);
+		inter_bold.applyFont(category, 13F, Color.black);
+		studentDetailsPanel.add(category);
 		
 		JLabel StudentDetails = new JLabel("Borrow Details: ");
 		StudentDetails.setBounds(24, 15, 186, 27);
@@ -93,94 +124,83 @@ public class BorrowedBooksPanel extends JPanel {
 		studentDetailsPanel.add(StudentDetails);
 		
 		
-		
 		JLabel borrowersInfo = new JLabel("<html> <u>Book Information:</u> </html>");
 		inter_regular.applyFont(borrowersInfo, 13F, Color.black);
-		borrowersInfo.setBounds(24,55, 200,40);
+		borrowersInfo.setBounds(24,45, 200,40);
 		studentDetailsPanel.add(borrowersInfo);
 		
 		JLabel bookTitle = new JLabel("Book Title:");
-		bookTitle.setBounds(24, 98, 183, 38);
+		bookTitle.setBounds(24, 76, 183, 28);
 		inter_bold.applyFont(bookTitle, 13F, Color.black);
 		studentDetailsPanel.add(bookTitle);
 		
-		JTextArea jujutsu = new JTextArea("Jujutsu Kaisen");
-		jujutsu.setWrapStyleWord(true);
-		jujutsu.setLineWrap(true);
-		jujutsu.setFocusable(false);
-		jujutsu.setEditable(false);
-		jujutsu.setBounds(24, 123, 108, 28);
-		jujutsu.setBackground(new Color(216,216,216));
-		inter_regular.applyFont(jujutsu, 13F, Color.black);
-		studentDetailsPanel.add(jujutsu);
+		JTextArea bookTitleValue = new JTextArea("Web Development I: An introduction to Web Computing 1st Edition");
+		bookTitleValue.setWrapStyleWord(true);
+		bookTitleValue.setLineWrap(true);
+		bookTitleValue.setFocusable(false);
+		bookTitleValue.setEditable(false);
+		bookTitleValue.setBounds(24, 100, 213, 54);
+		bookTitleValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont(bookTitleValue, 13F, Color.black);
+		studentDetailsPanel.add(bookTitleValue);
 		
-		JLabel bookAuthor = new JLabel("Book Author");
-		bookAuthor.setBounds(24, 145, 183,38);
-		inter_bold.applyFont(bookAuthor, 13F, Color.black);
-		studentDetailsPanel.add(bookAuthor);
+		JTextArea bookAuthorValue = new JTextArea("Jaymark Cabildo");
+		bookAuthorValue.setWrapStyleWord(true);
+		bookAuthorValue.setLineWrap(true);
+		bookAuthorValue.setFocusable(false);
+		bookAuthorValue.setEditable(false);
+		bookAuthorValue.setBounds(24, 167, 213, 50);
+		bookAuthorValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont( bookAuthorValue, 13F, Color.black);
+		studentDetailsPanel.add( bookAuthorValue);
 		
-		JTextArea autText = new JTextArea("Jaymark D. Cabildo");
-		autText.setWrapStyleWord(true);
-		autText.setLineWrap(true);
-		autText.setFocusable(false);
-		autText.setEditable(false);
-		autText.setBounds(24, 170, 128, 28);
-		autText.setBackground(new Color(216,216,216));
-		inter_regular.applyFont( autText, 13F, Color.black);
-		studentDetailsPanel.add( autText);
-		
-		JLabel category = new JLabel("Category:");
-		category.setBounds(24, 185, 138, 38);
-		inter_bold.applyFont(category, 13F, Color.black);
-		studentDetailsPanel.add(category);
-		
-		JTextArea catText = new JTextArea("Tagalog");
-		catText.setWrapStyleWord(true);
-		catText.setLineWrap(true);
-		catText.setFocusable(false);
-		catText.setEditable(false);
-		catText.setBounds(24, 210, 128, 28);
-		catText.setBackground(new Color(216,216,216));
-		inter_regular.applyFont( catText, 13F, Color.black);
-		studentDetailsPanel.add( catText);
+		JTextArea bookCategoryValue = new JTextArea("Local");
+		bookCategoryValue.setWrapStyleWord(true);
+		bookCategoryValue.setLineWrap(true);
+		bookCategoryValue.setFocusable(false);
+		bookCategoryValue.setEditable(false);
+		bookCategoryValue.setBounds(24, 223, 128, 28);
+		bookCategoryValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont( bookCategoryValue, 13F, Color.black);
+		studentDetailsPanel.add( bookCategoryValue);
 		
 		JLabel borrowInfo = new JLabel("<html> <u>Borrower's Information:</u></html>");
-		borrowInfo.setBounds(240, 55, 200, 40);
+		borrowInfo.setBounds(254, 45, 200, 40);
 		inter_regular.applyFont(borrowInfo, 13F, Color.black);
 		studentDetailsPanel.add(borrowInfo);
 		
 		JLabel studentName = new JLabel("Student Name:");
-		studentName.setBounds(240, 110, 160, 14);
+		studentName.setBounds(254, 83, 160, 14);
 		inter_bold.applyFont(studentName, 13F, Color.black);
 		studentDetailsPanel.add(studentName);
 		
-		JTextArea nameText = new JTextArea("Boks");
-		nameText.setWrapStyleWord(true);
-		nameText.setLineWrap(true);
-		nameText.setFocusable(false);
-		nameText.setEditable(false);
-		nameText.setBounds(240, 124, 128, 28);
-		nameText.setBackground(new Color(216,216,216));
-		inter_regular.applyFont( nameText, 13F, Color.black);
-		studentDetailsPanel.add( nameText);
+		JTextArea nameValue = new JTextArea("Boks");
+		nameValue.setWrapStyleWord(true);
+		nameValue.setLineWrap(true);
+		nameValue.setFocusable(false);
+		nameValue.setEditable(false);
+		nameValue.setBounds(254, 100, 200, 28);
+		nameValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont( nameValue, 13F, Color.black);
+		studentDetailsPanel.add( nameValue);
 		
 		JLabel gender = new JLabel("Gender:");
-		gender.setBounds(240, 157, 70, 14);
+		gender.setBounds(254, 143, 70, 14);
 		inter_bold.applyFont(gender, 13F, Color.black);
 		studentDetailsPanel.add(gender);
 		
-		JTextArea genderText = new JTextArea("Male");
-		 genderText .setWrapStyleWord(true);
-		 genderText .setLineWrap(true);
-		 genderText .setFocusable(false);
-		 genderText .setEditable(false);
-		 genderText .setBounds(240, 171, 128, 28);
-		 genderText .setBackground(new Color(216,216,216));
-		inter_regular.applyFont( genderText , 13F, Color.black);
-		studentDetailsPanel.add(  genderText );
+		JTextArea genderValue = new JTextArea("Male");
+		 genderValue .setWrapStyleWord(true);
+		 genderValue .setLineWrap(true);
+		 genderValue .setFocusable(false);
+		 genderValue .setEditable(false);
+		 genderValue .setBounds(254, 158, 172, 28);
+		 genderValue .setBackground(new Color(216,216,216));
+		inter_regular.applyFont( genderValue , 13F, Color.black);
+		studentDetailsPanel.add(  genderValue );
 		
 		JLabel department = new JLabel("Department:");
-		department.setBounds(240, 197, 90, 14);
+		department.setBounds(254, 208, 90, 14);
 		inter_bold.applyFont(department, 13F, Color.black);
 		studentDetailsPanel.add(department);
 		
@@ -189,58 +209,56 @@ public class BorrowedBooksPanel extends JPanel {
 		deparText .setLineWrap(true);
 		deparText .setFocusable(false);
 		deparText .setEditable(false);
-		deparText .setBounds(240, 211, 128, 28);
+		deparText .setBounds(254, 223, 128, 28);
 		deparText .setBackground(new Color(216,216,216));
 		inter_regular.applyFont( deparText , 13F, Color.black);
 		studentDetailsPanel.add(  deparText );
 		
 		JLabel borrowDate = new JLabel("Borrowed Date:");
-		borrowDate.setBounds(460, 111, 110, 14);
+		borrowDate.setBounds(464, 83, 110, 14);
 		inter_bold.applyFont(borrowDate, 13F, Color.black);
 		studentDetailsPanel.add(borrowDate);
 		
 		
-		JTextArea borDate = new JTextArea("2024-11-11 13:23:44");
-		borDate.setWrapStyleWord(true);
-		borDate.setLineWrap(true);
-		borDate.setFocusable(false);
-		borDate.setEditable(false);
-		borDate.setBounds(460, 126, 128, 28);
-		borDate.setBackground(new Color(216,216,216));
-		inter_regular.applyFont(borDate , 13F, Color.black);
-		studentDetailsPanel.add(borDate);
+		JTextArea borroweredDateValue = new JTextArea("2024-11-11 13:23:44");
+		borroweredDateValue.setWrapStyleWord(true);
+		borroweredDateValue.setLineWrap(true);
+		borroweredDateValue.setFocusable(false);
+		borroweredDateValue.setEditable(false);
+		borroweredDateValue.setBounds(464, 100, 138, 28);
+		borroweredDateValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont(borroweredDateValue , 13F, Color.black);
+		studentDetailsPanel.add(borroweredDateValue);
 		
 		JLabel dueDate = new JLabel("Due Date:");
-		 dueDate.setBounds(460, 157, 110, 14);
+		 dueDate.setBounds(464, 145, 110, 14);
 		inter_bold.applyFont( dueDate, 13F, Color.black);
 		studentDetailsPanel.add( dueDate);
 		
-		JTextArea dDate = new JTextArea("2024-11-11 13:23:44");
-		dDate.setWrapStyleWord(true);
-		dDate.setLineWrap(true);
-		dDate.setFocusable(false);
-		dDate.setEditable(false);
-		dDate.setBounds(460, 172, 128, 26);
-		dDate.setBackground(new Color(216,216,216));
-		inter_regular.applyFont(dDate , 13F, Color.black);
-		studentDetailsPanel.add(dDate);
+		JTextArea dueDateValue = new JTextArea("2024-11-11 13:23:44");
+		dueDateValue.setWrapStyleWord(true);
+		dueDateValue.setLineWrap(true);
+		dueDateValue.setFocusable(false);
+		dueDateValue.setEditable(false);
+		dueDateValue.setBounds(464, 160, 138, 26);
+		dueDateValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont(dueDateValue , 13F, Color.black);
+		studentDetailsPanel.add(dueDateValue);
 		
 		JLabel status = new JLabel("Status:");
-		status.setBounds(460, 196, 90, 14);
+		status.setBounds(464, 205, 90, 14);
 		inter_bold.applyFont(status, 13F, Color.black);
 		studentDetailsPanel.add(status);
 		
-		JTextArea statusText = new JTextArea("Pending for return");
-		statusText.setWrapStyleWord(true);
-		statusText.setLineWrap(true);
-		statusText.setFocusable(false);
-		statusText.setEditable(false);
-		statusText.setBounds(460, 210, 128, 26);
-		statusText.setBackground(new Color(216,216,216));
-		inter_regular.applyFont(statusText , 13F, Color.black);
-		studentDetailsPanel.add(statusText);
-		
-		
+		JTextArea statusValue = new JTextArea("Pending for return");
+		statusValue.setWrapStyleWord(true);
+		statusValue.setLineWrap(true);
+		statusValue.setFocusable(false);
+		statusValue.setEditable(false);
+		statusValue.setBounds(464, 219, 138, 26);
+		statusValue.setBackground(new Color(216,216,216));
+		inter_regular.applyFont(statusValue , 13F, Color.black);
+		studentDetailsPanel.add(statusValue);
 
 	}
 	

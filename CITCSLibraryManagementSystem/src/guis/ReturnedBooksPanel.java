@@ -68,7 +68,7 @@ public class ReturnedBooksPanel extends JPanel {
 		//Scan Panel and Logo
 		
 		ScanPanel = new RoundedPanel(44);
-		ScanPanel.setBounds(57, 392, 214, 233);
+		ScanPanel.setBounds(34, 391, 214, 233);
 		ScanPanel.setBackground(new Color(216,216,216));
 		add(ScanPanel);
 		ScanPanel.setLayout(null);
@@ -86,8 +86,8 @@ public class ReturnedBooksPanel extends JPanel {
 		
 		//Return Details Panel
 		
-		ReturnDetailsPanel = new RoundedPanel(44);
-		ReturnDetailsPanel.setBounds(348, 391, 572, 257);
+		ReturnDetailsPanel = new RoundedPanel(40);
+		ReturnDetailsPanel.setBounds(258, 391, 662, 257);
 		ReturnDetailsPanel.setBackground(new Color(216,216,216));
 		add(ReturnDetailsPanel);
 		ReturnDetailsPanel.setLayout(null);
@@ -98,12 +98,12 @@ public class ReturnedBooksPanel extends JPanel {
 		ReturnDetailsPanel.add(ReturnDetails);
 		
 		JLabel ReturnNumber = new JLabel("Return No.:");
-		ReturnNumber.setBounds(443, 14, 108, 27);
+		ReturnNumber.setBounds(514, 14, 108, 27);
 		inter_bold.applyFont(ReturnNumber, 15F, Color.black);
 		ReturnDetailsPanel.add(ReturnNumber);
 		
 		JLabel ReturnNumberNoValue = new JLabel("1");
-		ReturnNumberNoValue.setBounds(525, 14, 31, 27);
+		ReturnNumberNoValue.setBounds(610, 14, 31, 27);
 		inter_regular.applyFont(ReturnNumberNoValue, 15F, Color.black);
 		ReturnDetailsPanel.add(ReturnNumberNoValue);
 		
@@ -115,7 +115,7 @@ public class ReturnedBooksPanel extends JPanel {
 		ReturnDetailsPanel.add(BookInformation);
 		
 		JLabel ReturnerInformation = new JLabel("<html><u>Returner's Information:</u></html>");
-		ReturnerInformation.setBounds(220, 52, 186, 27);
+		ReturnerInformation.setBounds(251, 52, 186, 27);
 		inter_regular.applyFont(ReturnerInformation, 13F, Color.black);
 		ReturnDetailsPanel.add(ReturnerInformation);
 		
@@ -137,27 +137,27 @@ public class ReturnedBooksPanel extends JPanel {
 		ReturnDetailsPanel.add(BookCategory);
 		
 		JLabel StudentName = new JLabel("Student Name:");
-		StudentName.setBounds(220, 83, 120, 14);
+		StudentName.setBounds(251, 83, 120, 14);
 		inter_bold.applyFont(StudentName, 13F, Color.black);
 		ReturnDetailsPanel.add(StudentName);
 		
 		JLabel StudentGender = new JLabel("Gender:");
-		StudentGender.setBounds(220, 144, 100, 14);
+		StudentGender.setBounds(251, 144, 100, 14);
 		inter_bold.applyFont(StudentGender, 13F, Color.black);
 		ReturnDetailsPanel.add(StudentGender);
 		
 		JLabel StudentDepartment = new JLabel("Department:");
-		StudentDepartment.setBounds(220, 199, 120, 14);
+		StudentDepartment.setBounds(251, 199, 120, 14);
 		inter_bold.applyFont(StudentDepartment, 13F, Color.black);
 		ReturnDetailsPanel.add(StudentDepartment);
 		
 		JLabel BorrowedDate = new JLabel("Borrowed Date:");
-		BorrowedDate.setBounds(387, 83, 120, 14);
+		BorrowedDate.setBounds(472, 83, 120, 14);
 		inter_bold.applyFont(BorrowedDate, 13F, Color.black);
 		ReturnDetailsPanel.add(BorrowedDate);
 		
 		JLabel ReturnedDate = new JLabel("Returned Date:");
-		ReturnedDate.setBounds(387, 154, 120, 14);
+		ReturnedDate.setBounds(472, 154, 120, 14);
 		inter_bold.applyFont(ReturnedDate, 13F, Color.black);
 		ReturnDetailsPanel.add(ReturnedDate);
 		
@@ -168,7 +168,7 @@ public class ReturnedBooksPanel extends JPanel {
 		BookTitleValue.setLineWrap(true);
 		BookTitleValue.setFocusable(false);
 		BookTitleValue.setEditable(false);
-		BookTitleValue.setBounds(34, 97, 163, 48);
+		BookTitleValue.setBounds(34, 97, 199, 48);
 		inter_regular.applyFont(BookTitleValue, 13F, Color.black);
 		BookTitleValue.setBackground(new Color(216, 216, 216));
 		ReturnDetailsPanel.add(BookTitleValue);
@@ -178,7 +178,7 @@ public class ReturnedBooksPanel extends JPanel {
 		BookAuthorValue.setLineWrap(true);
 		BookAuthorValue.setFocusable(false);
 		BookAuthorValue.setEditable(false);
-		BookAuthorValue.setBounds(34, 161, 163, 40);
+		BookAuthorValue.setBounds(34, 161, 199, 40);
 		inter_regular.applyFont(BookAuthorValue, 13F, Color.black);
 		BookAuthorValue.setBackground(new Color(216, 216, 216));
 		ReturnDetailsPanel.add(BookAuthorValue);
@@ -188,7 +188,7 @@ public class ReturnedBooksPanel extends JPanel {
 		StudentNameNoValue.setLineWrap(true);
 		StudentNameNoValue.setFocusable(false);
 		StudentNameNoValue.setEditable(false);
-		StudentNameNoValue.setBounds(220, 97, 150, 46);
+		StudentNameNoValue.setBounds(251, 97, 199, 46);
 		inter_regular.applyFont(StudentNameNoValue, 13F, Color.black);
 		StudentNameNoValue.setBackground(new Color(216, 216, 216));
 		ReturnDetailsPanel.add(StudentNameNoValue);
@@ -199,22 +199,22 @@ public class ReturnedBooksPanel extends JPanel {
 		ReturnDetailsPanel.add(CategoryValue);
 		
 		JLabel GenderNoValue = new JLabel("Male");
-		GenderNoValue.setBounds(220, 159, 60, 20);
+		GenderNoValue.setBounds(251, 159, 60, 20);
 		inter_regular.applyFont(GenderNoValue, 13F, Color.black);
 		ReturnDetailsPanel.add(GenderNoValue);
 		
 		JLabel DepartmentNoValue = new JLabel("CITCS");
-		DepartmentNoValue.setBounds(220, 214, 60, 20);
+		DepartmentNoValue.setBounds(251, 214, 60, 20);
 		inter_regular.applyFont(DepartmentNoValue, 13F, Color.black);
 		ReturnDetailsPanel.add(DepartmentNoValue);
 		
 		JLabel BorrowedDateNoValue = new JLabel("2024-11-11 13:23:44");
-		BorrowedDateNoValue.setBounds(387, 97, 150, 20);
+		BorrowedDateNoValue.setBounds(472, 97, 150, 20);
 		inter_regular.applyFont(BorrowedDateNoValue, 13F, Color.black);
 		ReturnDetailsPanel.add(BorrowedDateNoValue);
 		
 		JLabel ReturnedDateNoValue = new JLabel("2024-11-11 13:23:44");
-		ReturnedDateNoValue.setBounds(387, 169, 150, 20);
+		ReturnedDateNoValue.setBounds(472, 169, 150, 20);
 		inter_regular.applyFont(ReturnedDateNoValue, 13F, Color.black);
 		ReturnDetailsPanel.add(ReturnedDateNoValue);
 			
