@@ -130,6 +130,7 @@ public class Signup extends JFrame implements ActionListener{
 		SIGNUP_PANEL.add(LIBRARIAN_NAME);
 		
 		librarianNameTxt = new RoundedTextField(15);
+		librarianNameTxt.setPlaceholder("Surname, Firstname, M.I.");
 		librarianNameTxt.setBackground(Color.decode("#F2F2F2"));
 		librarianNameTxt.setBounds(55, 120, 344, 40);
 		librarianNameTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
