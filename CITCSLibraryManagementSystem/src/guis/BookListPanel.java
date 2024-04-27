@@ -15,6 +15,8 @@ import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+
 import inheritances.RoundedTextField;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -166,9 +168,10 @@ public class BookListPanel extends JPanel {
 		
 		search = new RoundedTextField(10);
 		search.setText("Search...");
-		search.setForeground(new Color(0, 0, 0, 0));
+		inter_regular.applyFont(search, 14f, Color.decode("#797878"));
 		search.setBackground(new Color(220, 220, 220));
 		search.setBounds(43, 123, 159, 32);
+		search.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		search.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -180,7 +183,7 @@ public class BookListPanel extends JPanel {
 
 		    @Override
 		    public void focusLost(FocusEvent event) {
-		        if (search.getText().equals("")) {
+		        if (search.getText().isEmpty()) {
 		            search.setText("Search...");
 		            search.setForeground(Color.decode("#797878"));
 		        }
