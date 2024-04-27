@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -23,6 +22,10 @@ import inheritances.ModelColor;
 import inheritances.RoundedButton;
 import inheritances.RoundedPasswordField;
 import inheritances.RoundedTextField;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.Cursor;
 
 public class Signup extends JFrame implements ActionListener{
 
@@ -33,9 +36,9 @@ public class Signup extends JFrame implements ActionListener{
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private GradientPanel bgPanel;
-	private RoundedTextField textField;
-	private JPasswordField passField;
-	private JPasswordField confirmPass;
+	private RoundedTextField librarianNameTxt;
+	private JPasswordField prepasswordTxt;
+	private JPasswordField passwordTxt;
 	
 	JCheckBox SHOWPASS;
 	
@@ -60,6 +63,7 @@ public class Signup extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Signup() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 680);
 	    setLocationRelativeTo(null);
@@ -114,58 +118,74 @@ public class Signup extends JFrame implements ActionListener{
 		SIGNUP_PANEL.setLayout(null);
 		
 		JLabel Signup = new JLabel("Sign Up");
-		Signup.setBounds(147, 10, 170, 55);
-		inter_bold.applyFont(Signup, 40F, Color.black);
+		Signup.setHorizontalAlignment(SwingConstants.CENTER);
+		Signup.setBounds(159, 11, 137, 55);
+		inter_bold.applyFont(Signup, 35F, Color.black);
 		SIGNUP_PANEL.add(Signup);
 		
-		JLabel USERNAME = new JLabel("Username");
-		USERNAME.setBounds(70, 103, 130, 20);
-		inter_bold.applyFont(USERNAME, 20F, Color.black);
-		SIGNUP_PANEL.add(USERNAME);
+		// Textfields
+		JLabel LIBRARIAN_NAME = new JLabel("Librarian Name");
+		LIBRARIAN_NAME.setBounds(55, 93, 130, 20);
+		inter_bold.applyFont(LIBRARIAN_NAME, 17F, Color.black);
+		SIGNUP_PANEL.add(LIBRARIAN_NAME);
 		
-		textField = new RoundedTextField(15);
-		textField.setBackground(Color.decode("#F2F2F2"));
-		textField.setBounds(69, 130, 310, 50);
-		textField.setBorder(new LineBorder(new Color(171, 173, 179), 5));
-		SIGNUP_PANEL.add(textField);
-		textField.setColumns(10);
-		inter_regular.applyFont(textField, 17F, Color.black); 
+		librarianNameTxt = new RoundedTextField(15);
+		librarianNameTxt.setBackground(Color.decode("#F2F2F2"));
+		librarianNameTxt.setBounds(55, 120, 344, 40);
+		librarianNameTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
+		SIGNUP_PANEL.add(librarianNameTxt);
+		librarianNameTxt.setColumns(10);
+		inter_regular.applyFont(librarianNameTxt, 17F, Color.black); 
+		
+		JLabel STAFF_ID = new JLabel("Staff ID");
+		STAFF_ID.setBounds(55, 170, 130, 20);
+		inter_bold.applyFont(STAFF_ID, 17F, Color.black);
+		SIGNUP_PANEL.add(STAFF_ID);
+		
+		RoundedTextField staffIdTxt = new RoundedTextField(15);
+		staffIdTxt.setColumns(10);
+		staffIdTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
+		staffIdTxt.setBackground(new Color(242, 242, 242));
+		staffIdTxt.setBounds(55, 196, 344, 40);
+		SIGNUP_PANEL.add(staffIdTxt);
+		inter_regular.applyFont(librarianNameTxt, 17F, Color.black); 
 		
 		JLabel PASSWORD = new JLabel("Password");
-		PASSWORD.setBounds(70, 202, 130,20);
-		inter_bold.applyFont(PASSWORD, 20F, Color.BLACK);
+		PASSWORD.setBounds(55, 242, 130,20);
+		inter_bold.applyFont(PASSWORD, 17F, Color.BLACK);
 		SIGNUP_PANEL.add(PASSWORD);
 		
-		passField = new RoundedPasswordField(15);
-		passField.setBackground(Color.decode("#F2F2F2"));
-		passField.setBounds(69, 230, 310,50);
-		passField.setBorder(new LineBorder(new Color(171, 173, 179), 5));
-		SIGNUP_PANEL.add(passField);
-		passField.setColumns(10);
-		inter_regular.applyFont(passField, 17F, Color.black);
+		prepasswordTxt = new RoundedPasswordField(15);
+		prepasswordTxt.setBackground(Color.decode("#F2F2F2"));
+		prepasswordTxt.setBounds(55, 271, 344,40);
+		prepasswordTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
+		SIGNUP_PANEL.add(prepasswordTxt);
+		prepasswordTxt.setColumns(10);
+		inter_regular.applyFont(prepasswordTxt, 17F, Color.black);
 		
 		JLabel CONFIRM_PASS = new JLabel("Confirm Password");
-		CONFIRM_PASS.setBounds(70, 303, 180,20);
-		inter_bold.applyFont(CONFIRM_PASS, 20F, Color.BLACK);
+		CONFIRM_PASS.setBounds(55, 319, 180,20);
+		inter_bold.applyFont(CONFIRM_PASS, 17F, Color.BLACK);
 		SIGNUP_PANEL.add(CONFIRM_PASS);
 			
-		confirmPass = new RoundedPasswordField(15);
-		confirmPass.setBackground(Color.decode("#F2F2F2"));
-		confirmPass.setBorder(new LineBorder(new Color(171, 173, 179), 5));
-		confirmPass.setBounds(69, 330, 310,50);
-		SIGNUP_PANEL.add(confirmPass);
-		confirmPass.setColumns(10);
-		inter_regular.applyFont(confirmPass, 17F, Color.black);
+		passwordTxt = new RoundedPasswordField(15);
+		passwordTxt.setBackground(Color.decode("#F2F2F2"));
+		passwordTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
+		passwordTxt.setBounds(55, 346, 344,40);
+		SIGNUP_PANEL.add(passwordTxt);
+		passwordTxt.setColumns(10);
+		inter_regular.applyFont(passwordTxt, 17F, Color.black);
 		
 		SHOWPASS = new JCheckBox("Show Password");
-		SHOWPASS.setBounds(70, 394, 150, 25);
+		SHOWPASS.setFocusable(false);
+		SHOWPASS.setBounds(55, 393, 150, 25);
 		SHOWPASS.setBackground(Color.WHITE);
 		inter_regular.applyFont(SHOWPASS, 14F, Color.black);
 		SIGNUP_PANEL.add(SHOWPASS);
 		SHOWPASS.addActionListener(this);
 		
 		JButton SIGNUP_BUTTON = new RoundedButton("SIGN UP",15, Color.decode("#195B29"));
-		SIGNUP_BUTTON.setBounds(95, 446, 265, 50);
+		SIGNUP_BUTTON.setBounds(95, 446, 265, 55);
 		inter_bold.applyFont(SIGNUP_BUTTON, 28F, Color.white);
 		SIGNUP_PANEL.add(SIGNUP_BUTTON);
 		
@@ -174,7 +194,17 @@ public class Signup extends JFrame implements ActionListener{
 		inter_regular.applyFont(ALREADYHAVE, 16F, Color.black);
 		SIGNUP_PANEL.add(ALREADYHAVE);
 		
-		JLabel LOGIN_HERE = new JLabel("Sign Up Here!");
+		JLabel LOGIN_HERE = new JLabel("Sign In Here!");
+		LOGIN_HERE.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		LOGIN_HERE.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login login = new Login();
+				login.setVisible(true);
+				login.setLocationRelativeTo(null);
+				dispose();
+			}
+		});
 		LOGIN_HERE.setBounds(263, 545, 120, 20);
 		inter_bold.applyFont(LOGIN_HERE, 16F, Color.black);
 		SIGNUP_PANEL.add(LOGIN_HERE);
@@ -188,15 +218,14 @@ public class Signup extends JFrame implements ActionListener{
 		// Shows password
 		if(e.getSource() == SHOWPASS) {
 			if (SHOWPASS.isSelected()) {
-				passField.setEchoChar((char)0);
-				confirmPass.setEchoChar((char)0);
+				prepasswordTxt.setEchoChar((char)0);
+				passwordTxt.setEchoChar((char)0);
 			} else {
-				passField.setEchoChar('\u2022');
-				confirmPass.setEchoChar('\u2022');
+				prepasswordTxt.setEchoChar('\u2022');
+				passwordTxt.setEchoChar('\u2022');
 			}
 		}
 		
 		
 	}
-
 }
