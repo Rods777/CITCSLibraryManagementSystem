@@ -18,6 +18,7 @@ import inheritances.RoundedPanel;
 
 import javax.swing.JLabel;
 import java.awt.Cursor;
+import javax.swing.ImageIcon;
 
 public class MainApp extends JFrame implements MouseListener {
 
@@ -103,6 +104,12 @@ public class MainApp extends JFrame implements MouseListener {
 		// Returned Books Panel
 		OverdueBooksPanel overdueBooksPanel = new OverdueBooksPanel();
 		contentPanel.add(overdueBooksPanel, "overdueBooksPanel");
+		
+		// System Logo
+		JLabel lblSystemLogo = new JLabel("");
+		lblSystemLogo.setIcon(new ImageIcon(MainApp.class.getResource("/img/PLMUN CITCS LOGO.png")));
+		lblSystemLogo.setBounds(22, 22, 272, 76);
+		bgPanel.add(lblSystemLogo);
 		
 		// Navigation
 		homeNav = new RoundedPanel(15);
