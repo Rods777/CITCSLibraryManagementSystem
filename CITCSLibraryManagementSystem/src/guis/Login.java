@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
+import db.DBConnection;
 import inheritances.FontLoader;
 import inheritances.GradientPanel;
 import inheritances.ModelColor;
@@ -18,13 +19,20 @@ import inheritances.RoundedButton;
 import inheritances.RoundedPasswordField;
 import inheritances.RoundedTextField;
 
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.Cursor;
 
 public class Login extends JFrame implements ActionListener{
@@ -38,6 +46,11 @@ public class Login extends JFrame implements ActionListener{
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private RoundedTextField staffIDTxt;
 	private RoundedPasswordField passwordTxt;
+	private RoundedButton LOGIN_BUTTON;
+	public DBConnection connect = new DBConnection();
+	public PreparedStatement prep_stmt;
+	public ResultSet rs;
+	
 	JCheckBox SHOWPASS;
 	/**
 	 * Launch the application.
@@ -59,6 +72,7 @@ public class Login extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Login() {
+		connect.Connect(); //database connector
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setTitle("Login");
@@ -150,9 +164,10 @@ public class Login extends JFrame implements ActionListener{
 		LOGIN_PANEL.add(SHOWPASS);
 		SHOWPASS.addActionListener(this);
 		
-		RoundedButton LOGIN_BUTTON = new RoundedButton("LOGIN", 15, Color.decode("#195B29"));
+		 LOGIN_BUTTON = new RoundedButton("LOGIN", 15, Color.decode("#195B29"));
 		LOGIN_BUTTON.setBounds(102, 418, 265, 55);
 		inter_bold.applyFont(LOGIN_BUTTON, 26F, Color.white);
+		LOGIN_BUTTON.addActionListener(this);
 		LOGIN_PANEL.add(LOGIN_BUTTON);
 		
 		JLabel DONTHAVEACCOUNT = new JLabel("Don't Have an Account?");
@@ -189,7 +204,74 @@ public class Login extends JFrame implements ActionListener{
 				passwordTxt.setEchoChar('\u2022');
 			}
 		}
+		//action listener for button 
+		if(e.getSource()==LOGIN_BUTTON) {
+		  String staffId = staffIDTxt.getText();
+		  String password = String.valueOf(passwordTxt.getPassword());
+		  //error handler if fields are empty
+		if(staffId.isEmpty()|| password.isEmpty() ) {
+			JOptionPane.showMessageDialog(null, "Please fill all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
+		}else {
+			//database stuffs
+			try {
+					int staffID = Integer.parseInt(staffId);
+					
+					try {
+				
+						prep_stmt = connect.conn.prepareStatement(
+			                    "SELECT * FROM librarians WHERE librarian_staffID = ? AND librarian_password = ?");
+			            prep_stmt.setInt(1, staffID);
+			            prep_stmt.setString(2, password);
+			            ResultSet rs = prep_stmt.executeQuery();
+			            if (rs.next()) {
+			                JOptionPane.showMessageDialog(null, "Login Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+			                MainApp framer = new MainApp();
+			                framer.setVisible(true);
+			                framer.setLocationRelativeTo(null);
+			                dispose();
+			            } else {
+			               
+								
+							//error handler for staff id and pass
+								JOptionPane.showInternalMessageDialog(null, "Invalid StaffID or Password", "Error" ,JOptionPane.ERROR_MESSAGE);
+        			
+        			
+        			
+        			
+        			
+        			
+							}
+			            
+			        } catch (SQLException ex) {
+			            ex.printStackTrace();
+			            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			        }
+			    } catch (NumberFormatException ex) {
+			        JOptionPane.showMessageDialog(null, "Invalid Staff ID", "Input Error", JOptionPane.ERROR_MESSAGE);
+			    }
+			}
+		}
 		
 		
 	}
 }
+
+	
+			
+		
+			
+		
+		 
+		
+		
+	
+		
+	
+
+
+
+
+		
+	
+	
+
