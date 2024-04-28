@@ -6,16 +6,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import constants.CommonConstants;
+import db.DBConnection;
 import inheritances.FontLoader;
 import inheritances.GradientPanel;
 import inheritances.ModelColor;
@@ -25,6 +26,9 @@ import inheritances.RoundedTextField;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.Cursor;
 
 public class Signup extends JFrame implements ActionListener{
@@ -36,11 +40,15 @@ public class Signup extends JFrame implements ActionListener{
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private GradientPanel bgPanel;
-	private RoundedTextField librarianNameTxt;
-	private JPasswordField prepasswordTxt;
-	private JPasswordField passwordTxt;
+	private RoundedTextField librarianNameTxt, staffIdTxt;
+	private JPasswordField prepasswordTxt, passwordTxt;
+	private RoundedButton SIGNUP_BUTTON;
+	private JCheckBox SHOWPASS;
 	
-	JCheckBox SHOWPASS;
+	private DBConnection connect = new DBConnection();
+	
+	public PreparedStatement prep_stmt;
+	public ResultSet rs;
 	
 
 	/**
@@ -63,6 +71,7 @@ public class Signup extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public Signup() {
+		connect.Connect(); // Connecting to database
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 680);
@@ -143,13 +152,13 @@ public class Signup extends JFrame implements ActionListener{
 		inter_bold.applyFont(STAFF_ID, 17F, Color.black);
 		SIGNUP_PANEL.add(STAFF_ID);
 		
-		RoundedTextField staffIdTxt = new RoundedTextField(15);
+		staffIdTxt = new RoundedTextField(15);
 		staffIdTxt.setColumns(10);
 		staffIdTxt.setBorder(new LineBorder(new Color(171, 173, 179), 5));
 		staffIdTxt.setBackground(new Color(242, 242, 242));
 		staffIdTxt.setBounds(55, 196, 344, 40);
 		SIGNUP_PANEL.add(staffIdTxt);
-		inter_regular.applyFont(librarianNameTxt, 17F, Color.black); 
+		inter_regular.applyFont(staffIdTxt, 17F, Color.black); 
 		
 		JLabel PASSWORD = new JLabel("Password");
 		PASSWORD.setBounds(55, 242, 130,20);
@@ -185,7 +194,8 @@ public class Signup extends JFrame implements ActionListener{
 		SIGNUP_PANEL.add(SHOWPASS);
 		SHOWPASS.addActionListener(this);
 		
-		JButton SIGNUP_BUTTON = new RoundedButton("SIGN UP",15, Color.decode("#195B29"));
+		SIGNUP_BUTTON = new RoundedButton("SIGN UP",15, Color.decode("#195B29"));
+		SIGNUP_BUTTON.addActionListener(this);
 		SIGNUP_BUTTON.setBounds(95, 446, 265, 55);
 		inter_bold.applyFont(SIGNUP_BUTTON, 28F, Color.white);
 		SIGNUP_PANEL.add(SIGNUP_BUTTON);
@@ -224,6 +234,60 @@ public class Signup extends JFrame implements ActionListener{
 			} else {
 				prepasswordTxt.setEchoChar('\u2022');
 				passwordTxt.setEchoChar('\u2022');
+			}
+		}
+		//librarianNameTxt, staffIdTxt;
+		//prepasswordTxt, passwordTxt;
+		
+		// Sign-up Button
+		if(e.getSource() == SIGNUP_BUTTON) {
+			String name = librarianNameTxt.getText();
+			String staffIDstr = staffIdTxt.getText();
+			String prePassword = new String(prepasswordTxt.getPassword());
+			String password = new String(passwordTxt.getPassword());
+			if (name.equals("") || staffIDstr.equals("") || prePassword.equals("") || password.equals("")) {
+			    JOptionPane.showMessageDialog(null, "Please fill out all fields", "Alert", JOptionPane.WARNING_MESSAGE);
+			} else if (!password.equals(prePassword)) {
+			    JOptionPane.showMessageDialog(null, "Passwords do not match", "Alert", JOptionPane.WARNING_MESSAGE);
+			} else {
+			    // Checks if the staff ID is a valid integer
+			    try {
+			        int staffID = Integer.parseInt(staffIDstr);
+			        try {
+			            prep_stmt = connect.conn.prepareStatement(
+			                    "SELECT librarian_name, librarian_staffID FROM librarians WHERE librarian_name = ? OR librarian_staffID = ?");
+			            prep_stmt.setString(1, name);
+			            prep_stmt.setInt(2, staffID);
+			            ResultSet rs = prep_stmt.executeQuery();
+			            if (rs.next()) {
+			                JOptionPane.showMessageDialog(null, "Name or Staff ID already exists!", "Alert", JOptionPane.WARNING_MESSAGE);
+			            } else {
+			                // Insert data into the database as staff ID is valid and does not exist
+			                prep_stmt = connect.conn.prepareStatement(
+			                        "INSERT INTO librarians (librarian_name, librarian_staffID, librarian_password) VALUES (?, ?, ?)");
+			                prep_stmt.setString(1, name);
+			                prep_stmt.setInt(2, staffID);
+			                prep_stmt.setString(3, password);
+			                int row = prep_stmt.executeUpdate();
+			                // Checks if data inserted to database
+							if(row == 1) {
+								JOptionPane.showMessageDialog(null, "New librarian added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+								Login frame = new Login();
+								frame.setVisible(true);
+								frame.setLocationRelativeTo(null);
+								dispose();
+							} else {
+								JOptionPane.showMessageDialog(new JFrame(),
+										"Signin Error, Please Try Again!", "Error", JOptionPane.ERROR_MESSAGE);
+							}
+			            }
+			        } catch (SQLException ex) {
+			            ex.printStackTrace();
+			            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			        }
+			    } catch (NumberFormatException ex) {
+			        JOptionPane.showMessageDialog(null, "Staff ID must be a number", "Input Error", JOptionPane.ERROR_MESSAGE);
+			    }
 			}
 		}
 		
