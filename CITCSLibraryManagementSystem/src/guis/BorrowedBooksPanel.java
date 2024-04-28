@@ -9,6 +9,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -19,17 +20,23 @@ import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedPanel;
 import inheritances.RoundedTextField;
+import modals.BorrowBookScanner;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.Cursor;
 
-public class BorrowedBooksPanel extends JPanel {
+public class BorrowedBooksPanel extends JPanel implements MouseListener {
 
 	private static final long serialVersionUID = 1L;
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private RoundedTextField search;
-	private RoundedPanel studentDetailsPanel, qrCodePanel;
+	private RoundedPanel studentDetailsPanel, barcodeScannerPanel;
 
 	
 
@@ -74,21 +81,23 @@ public class BorrowedBooksPanel extends JPanel {
 		searchBut.setBounds(196, 117, 38, 32);
 		add(searchBut);
 		
-		qrCodePanel = new RoundedPanel(60);
-		qrCodePanel.setBounds(34,385, 214,233);
-		qrCodePanel.setBackground(new Color(216,216,216));
-		add(qrCodePanel);
-		qrCodePanel.setLayout(null);
+		barcodeScannerPanel = new RoundedPanel(60);
+		barcodeScannerPanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		barcodeScannerPanel.addMouseListener(this);
+		barcodeScannerPanel.setBounds(34,385, 214,233);
+		barcodeScannerPanel.setBackground(new Color(216,216,216));
+		add(barcodeScannerPanel);
+		barcodeScannerPanel.setLayout(null);
 		
 		JLabel scanLabel = new JLabel("Scan To Borrow");
 		scanLabel.setBounds(28, 170, 170, 50);
 		inter_bold.applyFont(scanLabel, 20F, Color.black);
-		qrCodePanel.add(scanLabel);
+		barcodeScannerPanel.add(scanLabel);
 		
 		JLabel ScanLogo = new JLabel("");
 		ScanLogo.setIcon(new ImageIcon(BorrowedBooksPanel.class.getResource("/icons/qr-code-scan.png")));
 		ScanLogo.setBounds(33, 24, 148, 148);
-		qrCodePanel.add(ScanLogo);
+		barcodeScannerPanel.add(ScanLogo);
 		
 		
 		
@@ -271,4 +280,40 @@ public class BorrowedBooksPanel extends JPanel {
         g2d.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 100, 100);
         g2d.dispose();
     }
+    
+    // Button Methods
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == barcodeScannerPanel) {
+			BorrowBookScanner borrowScanner = new BorrowBookScanner();
+			borrowScanner.setVisible(true);			
+			borrowScanner.setLocationRelativeTo(null);
+			borrowScanner.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
