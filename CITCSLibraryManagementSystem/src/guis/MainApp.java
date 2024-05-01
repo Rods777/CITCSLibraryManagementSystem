@@ -17,8 +17,11 @@ import inheritances.ModelColor;
 import inheritances.RoundedPanel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Cursor;
 import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
 
 public class MainApp extends JFrame implements MouseListener {
 
@@ -39,7 +42,10 @@ public class MainApp extends JFrame implements MouseListener {
 	private JLabel borrowedBooks;
 	private JLabel returnedBooks;
 	private JLabel overdueBooks;
-
+	
+	private DashboardPanel homeDashboardPanel;
+	private BookListPanel bookListPanel;
+	private OverdueBooksPanel overdueBooksPanel;
 	/**
 	 * Launch the application.
 	 */
@@ -82,7 +88,7 @@ public class MainApp extends JFrame implements MouseListener {
 		bgPanel.add(contentPanel);
 		
 		// Home Dashboard Panel
-		DashboardPanel homeDashboardPanel = new DashboardPanel();
+		homeDashboardPanel = new DashboardPanel();
 		contentPanel.add(homeDashboardPanel, "homeDashboardPanel");
 		
 		// Student's Log Panel
@@ -90,7 +96,7 @@ public class MainApp extends JFrame implements MouseListener {
 		contentPanel.add(studentsLogPanel, "studentsLogPanel");
 		
 		// Book List Panel
-		BookListPanel bookListPanel = new BookListPanel();
+		bookListPanel = new BookListPanel();
 		contentPanel.add(bookListPanel, "bookListPanel");
 		
 		// Borrowed Books Panel
@@ -102,7 +108,7 @@ public class MainApp extends JFrame implements MouseListener {
 		contentPanel.add(returnedBooksPanel, "returnedBooksPanel");
 		
 		// Returned Books Panel
-		OverdueBooksPanel overdueBooksPanel = new OverdueBooksPanel();
+		overdueBooksPanel = new OverdueBooksPanel();
 		contentPanel.add(overdueBooksPanel, "overdueBooksPanel");
 		
 		// System Logo
@@ -193,6 +199,20 @@ public class MainApp extends JFrame implements MouseListener {
 		
 		// Log out label
 		JLabel logoutLbl = new JLabel("Log out");
+		logoutLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int result = JOptionPane.showConfirmDialog(new JFrame() , "Are you sure you want to Log out?", 
+						"Logout",  JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION) {
+					dispose();
+					JOptionPane.showMessageDialog(new JFrame(), "You logged out Successfully!");
+					Login login = new Login();
+					login.setVisible(true);
+					login.setLocationRelativeTo(null);
+				}
+			}
+		});
 		logoutLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logoutLbl.setBounds(45, 618, 106, 45);
 		inter_bold.applyFont(logoutLbl, 24, Color.WHITE);
@@ -204,6 +224,14 @@ public class MainApp extends JFrame implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		// Navigation Buttons
 		if(e.getSource() == homeNav) {
+			homeDashboardPanel.fetchTotalBooks();
+			homeDashboardPanel.fetchAvailableBooks();
+			homeDashboardPanel.fetchTotalStudents();
+			homeDashboardPanel.fetchTotalBorrowedBooks();
+			homeDashboardPanel.fetchTotalReturnedBooks();
+			homeDashboardPanel.recentlyBorrowedBooks();
+			homeDashboardPanel.recentlyReturnedBooks();
+			
 			homeNav.setBackground(Color.WHITE);
 			home.setForeground(Color.BLACK);
 			
@@ -246,6 +274,7 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "studentsLogPanel");
 		}
 		if(e.getSource() == bookListNav) {
+			bookListPanel.fetchBookData();
 			bookListNav.setBackground(Color.WHITE);
 			bookList.setForeground(Color.BLACK);
 			
@@ -309,6 +338,7 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "returnedBooksPanel");
 		}	
 		if(e.getSource() == overdueBooksNav) {
+			overdueBooksPanel.fetchOverdueBooks();
 			overdueBooksNav.setBackground(Color.WHITE);
 			overdueBooks.setForeground(Color.BLACK);
 			

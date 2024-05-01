@@ -9,39 +9,39 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import constants.CommonConstants;
+import db.DBConnection;
 import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedTextField;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
-public class AddBookModal extends JDialog {
+public class AddBookModal extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
 	private FontLoader inter_regular = new FontLoader("/fonts/Inter-Regular.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
-	private RoundedTextField bookTitleTxt;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AddBookModal dialog = new AddBookModal();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			dialog.setLocationRelativeTo(null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	private RoundedTextField bookTitleTxt, bookAuthorTxt, barCodeTxt;
+	private JComboBox categoryCb;
+	private RoundedButton saveBtn;
+	
+	private DBConnection connect = new DBConnection();
+	public PreparedStatement prep_stmt = null;
+	public ResultSet rs = null;
 	/**
 	 * Create the dialog.
 	 */
 	public AddBookModal() {
+		connect.Connect();
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setBounds(100, 100, 550, 550);
 		getContentPane().setLayout(new BorderLayout());
@@ -81,7 +81,7 @@ public class AddBookModal extends JDialog {
 		bookAuthor.setBounds(50, 204, 131, 14);
 		contentPanel.add(bookAuthor);
 		
-		RoundedTextField bookAuthorTxt = new RoundedTextField(30);
+		bookAuthorTxt = new RoundedTextField(30);
 		inter_regular.applyFont(bookAuthorTxt, 16f, Color.BLACK);
 		bookAuthorTxt.setColumns(10);
 		bookAuthorTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
@@ -94,7 +94,7 @@ public class AddBookModal extends JDialog {
 		lblBookcategory.setBounds(50, 265, 87, 19);
 		contentPanel.add(lblBookcategory);
 		
-		JComboBox categoryCb = new JComboBox();
+		categoryCb = new JComboBox();
 		categoryCb.addItem("Local");
 		categoryCb.addItem("Foreign");
 		categoryCb.setBackground(Color.decode("#F2F2F2"));
@@ -109,7 +109,7 @@ public class AddBookModal extends JDialog {
 		lblBarcode.setBounds(50, 330, 131, 14);
 		contentPanel.add(lblBarcode);
 		
-		RoundedTextField barCodeTxt = new RoundedTextField(30);
+		barCodeTxt = new RoundedTextField(30);
 		barCodeTxt.setColumns(10);
 		barCodeTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
 		barCodeTxt.setBackground(new Color(242, 242, 242));
@@ -118,9 +118,49 @@ public class AddBookModal extends JDialog {
 		contentPanel.add(barCodeTxt);
 		
 		// Save Button
-		RoundedButton saveBtn = new RoundedButton("SAVE", 30, CommonConstants.SAVE_BUTTON);
+		saveBtn = new RoundedButton("SAVE", 30, CommonConstants.SAVE_BUTTON);
+		saveBtn.addActionListener(this);
 		inter_extrabold.applyFont(saveBtn, 32f, Color.WHITE);
 		saveBtn.setBounds(40, 413, 453, 62);
 		contentPanel.add(saveBtn);
+	}
+	
+	
+	// Save Button Functionality
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		String bookTitle = bookTitleTxt.getText();
+		String bookAuthor = bookAuthorTxt.getText();
+		String category = (String) categoryCb.getSelectedItem();
+		String barCode = barCodeTxt.getText();
+		
+		if(bookTitle.isEmpty() || bookAuthor.isEmpty() || category == null || barCode.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Please Fill out all Fields", "Alert", JOptionPane.WARNING_MESSAGE);
+		}else {
+			try {
+				prep_stmt = connect.conn.prepareStatement("INSERT INTO books (book_title, book_author, book_category, book_barcode, book_status) VALUES (?, ?, ?, ?, ?)");
+				prep_stmt.setString(1, bookTitle);
+				prep_stmt.setString(2, bookAuthor);
+				prep_stmt.setString(3, category);
+				prep_stmt.setString(4, barCode);
+				prep_stmt.setString(5, "Available");
+				
+				int row = prep_stmt.executeUpdate();
+				if(row == 1) {
+					JOptionPane.showMessageDialog(null, "Successfully Added a new Book!");
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Adding Book Error, Please Try Again!", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				prep_stmt.close();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+			
 	}
 }
