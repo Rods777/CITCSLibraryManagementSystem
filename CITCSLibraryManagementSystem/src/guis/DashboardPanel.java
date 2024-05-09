@@ -4,10 +4,19 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import constants.CommonConstants;
+import db.DBConnection;
 
 import javax.swing.JLabel;
 
@@ -16,6 +25,9 @@ import inheritances.RoundedPanel;
 
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
 
 public class DashboardPanel extends JPanel {
 
@@ -23,12 +35,24 @@ public class DashboardPanel extends JPanel {
 	
 	private FontLoader inter_black = new FontLoader("/fonts/Inter-Black.ttf");
 	private FontLoader inter_semibold = new FontLoader("/fonts/Inter-SemiBold.ttf");
+	private FontLoader inter_medium = new FontLoader("/fonts/Inter-Medium.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
+	
+	private JLabel totalBooksValue, availableBooksValue, noOfStudentsValue, borrowedBooksValue, returnedBooksValue;
+	
+	private DBConnection connect = new DBConnection();
+	public PreparedStatement prep_stmt = null;
+	public ResultSet rs = null;
+	private JTable recentlyBorrowedTable;
+	private JTable recentlyReturnedTable;
+	DefaultTableModel model = new DefaultTableModel();
+	DefaultTableModel model1 = new DefaultTableModel();
 
 	/**
 	 * Create the panel.
 	 */
 	public DashboardPanel() {
+		connect.Connect();
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(953, 682)); // Set size relative to contentPanel
 		setLayout(null);
@@ -66,7 +90,7 @@ public class DashboardPanel extends JPanel {
 		bookIcon.setBounds(10, 33, 66, 69);
 		totalBookPanel.add(bookIcon);
 		
-		JLabel totalBooksValue = new JLabel("10");
+		totalBooksValue = new JLabel("0");
 		inter_bold.applyFont(totalBooksValue, 60f, Color.WHITE);
 		totalBooksValue.setBounds(87, 39, 70, 65);
 		totalBookPanel.add(totalBooksValue);
@@ -87,7 +111,7 @@ public class DashboardPanel extends JPanel {
 		availableIcon.setBounds(15, 48, 53, 54);
 		availableBooksPanel.add(availableIcon);
 		
-		JLabel availableBooksValue = new JLabel("5");
+		availableBooksValue = new JLabel("0");
 		inter_bold.applyFont(availableBooksValue, 60f, Color.WHITE);
 		availableBooksValue.setBounds(87, 39, 70, 65);
 		availableBooksPanel.add(availableBooksValue);
@@ -108,7 +132,7 @@ public class DashboardPanel extends JPanel {
 		studentsIcon.setBounds(15, 42, 62, 62);
 		noOfStudentsPanel.add(studentsIcon);
 		
-		JLabel noOfStudentsValue = new JLabel("7");
+		noOfStudentsValue = new JLabel("0");
 		inter_bold.applyFont(noOfStudentsValue, 60f, Color.WHITE);
 		noOfStudentsValue.setBounds(87, 39, 70, 65);
 		noOfStudentsPanel.add(noOfStudentsValue);
@@ -129,7 +153,7 @@ public class DashboardPanel extends JPanel {
 		borrowedIcon.setBounds(10, 36, 74, 71);
 		borrowedBooksPanel.add(borrowedIcon);
 		
-		JLabel borrowedBooksValue = new JLabel("5");
+		borrowedBooksValue = new JLabel("0");
 		inter_bold.applyFont(borrowedBooksValue, 60f, Color.WHITE);
 		borrowedBooksValue.setBounds(87, 39, 70, 65);
 		borrowedBooksPanel.add(borrowedBooksValue);
@@ -150,21 +174,243 @@ public class DashboardPanel extends JPanel {
 		returnedIcon.setBounds(15, 40, 65, 64);
 		returnedBooksPanel.add(returnedIcon);
 		
-		JLabel returnedBooksValue = new JLabel("2");
+		returnedBooksValue = new JLabel("0");
 		inter_bold.applyFont(returnedBooksValue, 60f, Color.WHITE);
 		returnedBooksValue.setBounds(87, 39, 70, 65);
 		returnedBooksPanel.add(returnedBooksValue);
 		
 		JLabel recentlyBorrowed = new JLabel("Recently Borrowered");
 		inter_bold.applyFont(recentlyBorrowed, 20f, Color.BLACK);
-		recentlyBorrowed.setBounds(32, 326, 223, 25);
+		recentlyBorrowed.setBounds(34, 285, 223, 25);
 		add(recentlyBorrowed);
 		
 		JLabel recentlyReturned = new JLabel("Recently Returned");
 		inter_bold.applyFont(recentlyReturned, 20f, Color.BLACK);
-		recentlyReturned.setBounds(493, 326, 223, 25);
+		recentlyReturned.setBounds(34, 475, 223, 25);
 		add(recentlyReturned);
 		
+		// Recently Borrowed Table
+		Object[] recentlyBorrowedColumn = {"Book Name", "Borrower's Name", "Borrowed Date"};
+		model.setColumnIdentifiers(recentlyBorrowedColumn);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(36, 321, 863, 130);
+		add(scrollPane);
+		
+		recentlyBorrowedTable = new JTable();
+		recentlyBorrowedTable.setEnabled(false);
+		scrollPane.setViewportView(recentlyBorrowedTable);
+		inter_medium.applyFont(recentlyBorrowedTable, 14f, Color.BLACK);
+		recentlyBorrowedTable.setModel(model);
+		recentlyBorrowedTable.getTableHeader().setReorderingAllowed(false);
+		recentlyBorrowedTable.getTableHeader().setResizingAllowed(false);
+		recentlyBorrowedTable.setDefaultEditor(Object.class, null);
+		
+		// Table header
+		JTableHeader borrowedHeader = recentlyBorrowedTable.getTableHeader();
+		recentlyBorrowedTable.setRowHeight(35);
+		recentlyBorrowedTable.setFocusable(true);
+		recentlyBorrowedTable.setTableHeader(borrowedHeader);
+		
+		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+		centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < recentlyBorrowedColumn.length; i++) {
+			recentlyBorrowedTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+		}
+		inter_bold.applyFont(borrowedHeader, 14f, Color.WHITE);
+		borrowedHeader.setBackground(Color.decode("#35782D"));
+		borrowedHeader.setForeground(Color.WHITE);
+		
+		// Recently Returned Table
+		Object[] recentlyReturnedColumn = {"Book Name", "Returner's Name", "Returned Date"};
+		
+		model1.setColumnIdentifiers(recentlyReturnedColumn);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(34, 511, 865, 130);
+		add(scrollPane_1);
+		recentlyReturnedTable = new JTable();
+		recentlyReturnedTable.setEnabled(false);
+		scrollPane_1.setViewportView(recentlyReturnedTable);
+		inter_medium.applyFont(recentlyReturnedTable, 14f, Color.BLACK);
+		recentlyReturnedTable.setModel(model1);
+		recentlyReturnedTable.getTableHeader().setReorderingAllowed(false);
+		recentlyReturnedTable.getTableHeader().setResizingAllowed(false);
+		recentlyReturnedTable.setDefaultEditor(Object.class, null);
+		
+		// Table header
+		JTableHeader returnedHeader = recentlyReturnedTable.getTableHeader();
+		recentlyReturnedTable.setRowHeight(35);
+		recentlyReturnedTable.setFocusable(true);
+		recentlyReturnedTable.setTableHeader(returnedHeader);
+		
+		DefaultTableCellRenderer centerRenderer1 = new DefaultTableCellRenderer();
+		centerRenderer1.setHorizontalAlignment(SwingConstants.CENTER);
+		for (int i = 0; i < recentlyReturnedColumn.length; i++) {
+			recentlyReturnedTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer1);
+		}
+		inter_bold.applyFont(returnedHeader, 14f, Color.WHITE);
+		returnedHeader.setBackground(Color.decode("#35782D"));
+		returnedHeader.setForeground(Color.WHITE);
+		
+		fetchTotalBooks();
+		fetchAvailableBooks();
+		fetchTotalStudents();
+		fetchTotalBorrowedBooks();
+		fetchTotalReturnedBooks();
+		recentlyBorrowedBooks();
+		recentlyReturnedBooks();
+	}
+	
+	// Fetch borrowed book
+	public void recentlyBorrowedBooks() {
+		try {
+			prep_stmt = connect.conn.prepareStatement("SELECT * FROM borrows "
+					+ "INNER JOIN students ON borrows.student_id = students.student_id\r\n"
+					+ "INNER JOIN books ON borrows.book_barcode = books.book_barcode "
+					+ "ORDER BY borrow_id DESC LIMIT 3");
+			rs = prep_stmt.executeQuery();
+			model.setRowCount(0); // Resets the row
+			
+			while(rs.next()) {
+				String book_title = rs.getString("book_title");
+				String student_name = rs.getString("student_name");
+				String borrow_date = rs.getString("borrow_date");
+				
+				model.addRow(new Object[] {book_title, student_name, borrow_date});
+			}
+				
+			rs.close();
+			prep_stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch returned books
+	public void recentlyReturnedBooks() {
+		try {
+			prep_stmt = connect.conn.prepareStatement("SELECT * FROM returns "
+					   + "INNER JOIN borrows ON returns.borrow_id = borrows.borrow_id "
+					   + "INNER JOIN books ON borrows.book_barcode = books.book_barcode "
+					   + "INNER JOIN students ON borrows.student_id = students.student_id "
+					   + "ORDER BY returns.return_id DESC LIMIT 3");
+			rs = prep_stmt.executeQuery();
+			model1.setRowCount(0); // Resets the row
+			
+			while(rs.next()) {
+				String book_title = rs.getString("book_title");
+				String student_name = rs.getString("student_name");
+				String return_date = rs.getString("return_date");
+				
+				model1.addRow(new Object[] {book_title, student_name, return_date});
+			}
+			
+			rs.close();
+			prep_stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch Total Books
+	public void fetchTotalBooks() {
+		try {
+			int count;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as booksCount FROM books");
+			rs = prep_stmt.executeQuery();
+			totalBooksValue.setText("0");
+			if(rs.next()) {
+				count = rs.getInt("booksCount");
+				totalBooksValue.setText(String.valueOf(count));
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch Total Available Books
+	public void fetchAvailableBooks() {
+		try {
+			int count;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as booksCount FROM books WHERE book_status = 'Available'");
+			rs = prep_stmt.executeQuery();
+			availableBooksValue.setText("0");
+			if(rs.next()) {
+				count = rs.getInt("booksCount");
+				availableBooksValue.setText(String.valueOf(count));
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch Total Students
+	public void fetchTotalStudents() {
+		try {
+			int count;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as studentsCount FROM students WHERE DATE(student_timeIn) = CURDATE()");
+			rs = prep_stmt.executeQuery();
+			noOfStudentsValue.setText("0");
+			if(rs.next()) {
+				count = rs.getInt("studentsCount");
+				noOfStudentsValue.setText(String.valueOf(count));
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch total Borrowed Books
+	public void fetchTotalBorrowedBooks() {
+		try {
+			int count;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as borrowedCount FROM borrows WHERE borrow_status = 'Pending for Return'");
+			rs = prep_stmt.executeQuery();
+			borrowedBooksValue.setText("0");
+			if(rs.next()) {
+				count = rs.getInt("borrowedCount");
+				borrowedBooksValue.setText(String.valueOf(count));
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	// Fetch Total Returned Books
+	public void fetchTotalReturnedBooks() {
+		try {
+			int count;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as returnedCount FROM returns WHERE DATE(return_date) = CURDATE()");
+			rs = prep_stmt.executeQuery();
+			returnedBooksValue.setText("0");
+			if(rs.next()) {
+				count = rs.getInt("returnedCount");
+				returnedBooksValue.setText(String.valueOf(count));
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// Override method for border radius

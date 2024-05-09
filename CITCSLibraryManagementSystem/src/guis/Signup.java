@@ -47,8 +47,8 @@ public class Signup extends JFrame implements ActionListener{
 	
 	private DBConnection connect = new DBConnection();
 	
-	public PreparedStatement prep_stmt;
-	public ResultSet rs;
+	public PreparedStatement prep_stmt = null;
+	public ResultSet rs = null;
 	
 
 	/**

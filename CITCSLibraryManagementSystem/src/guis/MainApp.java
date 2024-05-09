@@ -5,26 +5,38 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import constants.CommonConstants;
+import db.DBConnection;
 import inheritances.FontLoader;
 import inheritances.GradientPanel;
 import inheritances.ModelColor;
 import inheritances.RoundedPanel;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Cursor;
 import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
 
 public class MainApp extends JFrame implements MouseListener {
+	
+	private static MainApp instance;
 
 	private static final long serialVersionUID = 1L;
 	private GradientPanel bgPanel;
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
+	private FontLoader inter_extrabold = new FontLoader("/fonts/Inter-ExtraBold.ttf");
 	private CardLayout cardLayout = new CardLayout();
 	private RoundedPanel homeNav;
 	private RoundedPanel studentLogNav;
@@ -39,7 +51,18 @@ public class MainApp extends JFrame implements MouseListener {
 	private JLabel borrowedBooks;
 	private JLabel returnedBooks;
 	private JLabel overdueBooks;
-
+	private JLabel lblNoOfOverdue;
+	
+	private DashboardPanel homeDashboardPanel;
+	private BookListPanel bookListPanel;
+	private OverdueBooksPanel overdueBooksPanel;
+	private BorrowedBooksPanel borrowedBooksPanel;
+	private ReturnedBooksPanel returnedBooksPanel;
+	private RoundedPanel overdueNotif;
+	
+	private DBConnection connect = new DBConnection();
+	public PreparedStatement prep_stmt = null;
+	public ResultSet rs = null;
 	/**
 	 * Launch the application.
 	 */
@@ -60,6 +83,10 @@ public class MainApp extends JFrame implements MouseListener {
 	 * Create the frame.
 	 */
 	public MainApp() {
+		if (instance == null) {
+            instance = this;
+        }
+		connect.Connect();
 		setTitle("CITCS Library Management System");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,7 +109,7 @@ public class MainApp extends JFrame implements MouseListener {
 		bgPanel.add(contentPanel);
 		
 		// Home Dashboard Panel
-		DashboardPanel homeDashboardPanel = new DashboardPanel();
+		homeDashboardPanel = new DashboardPanel();
 		contentPanel.add(homeDashboardPanel, "homeDashboardPanel");
 		
 		// Student's Log Panel
@@ -90,19 +117,19 @@ public class MainApp extends JFrame implements MouseListener {
 		contentPanel.add(studentsLogPanel, "studentsLogPanel");
 		
 		// Book List Panel
-		BookListPanel bookListPanel = new BookListPanel();
+		bookListPanel = new BookListPanel();
 		contentPanel.add(bookListPanel, "bookListPanel");
 		
 		// Borrowed Books Panel
-		BorrowedBooksPanel borrowedBooksPanel = new BorrowedBooksPanel();
+		borrowedBooksPanel = new BorrowedBooksPanel();
 		contentPanel.add(borrowedBooksPanel, "borrowedBooksPanel");
 		
 		// Returned Books Panel
-		ReturnedBooksPanel returnedBooksPanel = new ReturnedBooksPanel();
+		returnedBooksPanel = new ReturnedBooksPanel();
 		contentPanel.add(returnedBooksPanel, "returnedBooksPanel");
 		
 		// Returned Books Panel
-		OverdueBooksPanel overdueBooksPanel = new OverdueBooksPanel();
+		overdueBooksPanel = new OverdueBooksPanel();
 		contentPanel.add(overdueBooksPanel, "overdueBooksPanel");
 		
 		// System Logo
@@ -186,6 +213,18 @@ public class MainApp extends JFrame implements MouseListener {
 		overdueBooksNav.setLayout(null);
 		bgPanel.add(overdueBooksNav);
 		
+		overdueNotif = new RoundedPanel(50);
+		overdueNotif.setVisible(false);
+		overdueNotif.setBackground(Color.decode("#E74343"));
+		overdueNotif.setBounds(208, 18, 23, 21);
+		overdueBooksNav.add(overdueNotif);
+		overdueNotif.setLayout(new BorderLayout(0, 0));
+		
+		lblNoOfOverdue = new JLabel("1");
+		inter_extrabold.applyFont(lblNoOfOverdue, 12, Color.WHITE);
+		lblNoOfOverdue.setHorizontalAlignment(SwingConstants.CENTER);
+		overdueNotif.add(lblNoOfOverdue);
+		
 		overdueBooks = new JLabel("Overdue Books");
 		inter_bold.applyFont(overdueBooks, 20f, Color.WHITE);
 		overdueBooks.setBounds(20, 5, 243, 45);
@@ -193,10 +232,59 @@ public class MainApp extends JFrame implements MouseListener {
 		
 		// Log out label
 		JLabel logoutLbl = new JLabel("Log out");
+		logoutLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int result = JOptionPane.showConfirmDialog(new JFrame() , "Are you sure you want to Log out?", 
+						"Logout",  JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if(result == JOptionPane.YES_OPTION) {
+					dispose();
+					JOptionPane.showMessageDialog(new JFrame(), "You logged out Successfully!");
+					Login login = new Login();
+					login.setVisible(true);
+					login.setLocationRelativeTo(null);
+				}
+			}
+		});
 		logoutLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logoutLbl.setBounds(45, 618, 106, 45);
 		inter_bold.applyFont(logoutLbl, 24, Color.WHITE);
 		bgPanel.add(logoutLbl);
+		
+		getTotalOverdue();
+	}
+	
+	 public static MainApp getInstance() {
+	        return instance;
+	 }
+	
+	public void getTotalOverdue() {
+		try {
+			int count = 0;
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as overdueCount FROM borrows WHERE DATE(borrow_dueDate) < CURDATE() AND borrow_status = 'Pending for Return'");
+			rs = prep_stmt.executeQuery();
+			lblNoOfOverdue.setText("0");
+			overdueNotif.setVisible(false);
+			if(rs.next()) {
+				count = rs.getInt("overdueCount");		
+				if(count > 0) {
+					overdueNotif.setVisible(true);
+					lblNoOfOverdue.setText(String.valueOf(count));
+				}else {
+					overdueNotif.setVisible(false);
+				}
+			}
+			
+			prep_stmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateOverdueNotification() {
+	    getTotalOverdue(); // Check for overdue books
 	}
 	
 	// Buttons Functionalities
@@ -204,6 +292,15 @@ public class MainApp extends JFrame implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		// Navigation Buttons
 		if(e.getSource() == homeNav) {
+			homeDashboardPanel.fetchTotalBooks();
+			homeDashboardPanel.fetchAvailableBooks();
+			homeDashboardPanel.fetchTotalStudents();
+			homeDashboardPanel.fetchTotalBorrowedBooks();
+			homeDashboardPanel.fetchTotalReturnedBooks();
+			homeDashboardPanel.recentlyBorrowedBooks();
+			homeDashboardPanel.recentlyReturnedBooks();
+			getTotalOverdue();
+			
 			homeNav.setBackground(Color.WHITE);
 			home.setForeground(Color.BLACK);
 			
@@ -225,6 +322,7 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "homeDashboardPanel");
 		}
 		if(e.getSource() == studentLogNav) {
+			getTotalOverdue();
 			studentLogNav.setBackground(Color.WHITE);
 			studentsLog.setForeground(Color.BLACK);
 			
@@ -246,8 +344,10 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "studentsLogPanel");
 		}
 		if(e.getSource() == bookListNav) {
+			bookListPanel.fetchBookData();
 			bookListNav.setBackground(Color.WHITE);
 			bookList.setForeground(Color.BLACK);
+			getTotalOverdue();
 			
 			studentLogNav.setBackground(new Color(0, 0, 0, 0));
 			studentsLog.setForeground(Color.WHITE);
@@ -267,8 +367,10 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "bookListPanel");
 		}
 		if(e.getSource() == borrowedBooksNav) {
+			borrowedBooksPanel.fetchBorrowedBooks();
 			borrowedBooksNav.setBackground(Color.WHITE);
 			borrowedBooks.setForeground(Color.BLACK);
+			getTotalOverdue();
 			
 			studentLogNav.setBackground(new Color(0, 0, 0, 0));
 			studentsLog.setForeground(Color.WHITE);
@@ -288,8 +390,10 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "borrowedBooksPanel");
 		}
 		if(e.getSource() == returnedBooksNav) {
+			returnedBooksPanel.fetchReturnedBooks();
 			returnedBooksNav.setBackground(Color.WHITE);
 			returnedBooks.setForeground(Color.BLACK);
+			getTotalOverdue();
 			
 			studentLogNav.setBackground(new Color(0, 0, 0, 0));
 			studentsLog.setForeground(Color.WHITE);
@@ -309,8 +413,10 @@ public class MainApp extends JFrame implements MouseListener {
 			cardLayout.show(contentPanel, "returnedBooksPanel");
 		}	
 		if(e.getSource() == overdueBooksNav) {
+			overdueBooksPanel.fetchOverdueBooks();
 			overdueBooksNav.setBackground(Color.WHITE);
 			overdueBooks.setForeground(Color.BLACK);
+			getTotalOverdue();
 			
 			studentLogNav.setBackground(new Color(0, 0, 0, 0));
 			studentsLog.setForeground(Color.WHITE);

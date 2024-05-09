@@ -49,8 +49,7 @@ public class PanelTester extends JFrame {
 		// Change the Class and constructor for testing Panel
 		// ex. DashboardPanel panel = new DashboardPanel();
 		
-		BookListPanel panel = new BookListPanel();
+		StudentsLogPanel panel = new StudentsLogPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 	}
-
 }
