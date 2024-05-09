@@ -313,6 +313,7 @@ public class DashboardPanel extends JPanel {
 		}
 	}
 	
+	// Fetch Total Books
 	public void fetchTotalBooks() {
 		try {
 			int count;
@@ -332,6 +333,7 @@ public class DashboardPanel extends JPanel {
 		}
 	}
 	
+	// Fetch Total Available Books
 	public void fetchAvailableBooks() {
 		try {
 			int count;
@@ -351,6 +353,7 @@ public class DashboardPanel extends JPanel {
 		}
 	}
 	
+	// Fetch Total Students
 	public void fetchTotalStudents() {
 		try {
 			int count;
@@ -370,6 +373,7 @@ public class DashboardPanel extends JPanel {
 		}
 	}
 	
+	// Fetch total Borrowed Books
 	public void fetchTotalBorrowedBooks() {
 		try {
 			int count;
@@ -389,10 +393,11 @@ public class DashboardPanel extends JPanel {
 		}
 	}
 	
+	// Fetch Total Returned Books
 	public void fetchTotalReturnedBooks() {
 		try {
 			int count;
-			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as returnedCount FROM returns WHERE return_date = CURDATE()");
+			prep_stmt = connect.conn.prepareStatement("SELECT COUNT(*) as returnedCount FROM returns WHERE DATE(return_date) = CURDATE()");
 			rs = prep_stmt.executeQuery();
 			returnedBooksValue.setText("0");
 			if(rs.next()) {

@@ -22,7 +22,6 @@ import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedPanel;
 import inheritances.RoundedTextField;
-import modals.BorrowBookScanner;
 import modals.ReturnBookScanner;
 
 import javax.swing.JTextArea;
@@ -447,6 +446,7 @@ public class ReturnedBooksPanel extends JPanel implements MouseListener,ActionLi
 	            public void windowClosed(WindowEvent e) {
 	                // This method is called when the window is closed.
 					fetchReturnedBooks();
+					MainApp.getInstance().updateOverdueNotification();
 	            }
 			});	
 		}	

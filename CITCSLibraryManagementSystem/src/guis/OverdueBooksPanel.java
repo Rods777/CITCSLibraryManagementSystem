@@ -413,9 +413,11 @@ public class OverdueBooksPanel extends JPanel {
 				prep_stmt = connect.conn.prepareStatement("SELECT * FROM borrows "
 		                + "INNER JOIN students ON borrows.student_id = students.student_id "
 		                + "INNER JOIN books ON borrows.book_barcode = books.book_barcode "
-		                + "WHERE borrow_id LIKE ? OR books.book_title LIKE ? OR books.book_category LIKE ? "
+		                + "WHERE (borrow_id LIKE ? OR books.book_title LIKE ? OR books.book_category LIKE ? "
 		                + "OR students.student_name LIKE ? OR borrow_dueDate LIKE ? OR borrow_date LIKE ? "
-		                + "OR borrow_status LIKE ? OR students.student_number LIKE ? ORDER BY borrow_id");
+		                + "OR borrow_status LIKE ? OR students.student_number LIKE ?) AND "
+		                + "DATE(borrow_dueDate) < CURDATE() AND borrow_status = 'Pending for Return' "
+		                + "ORDER BY borrow_id");
 				prep_stmt.setString(1, "%" + searchTxt + "%");
 				prep_stmt.setString(2, "%" + searchTxt + "%");
 				prep_stmt.setString(3, "%" + searchTxt + "%");

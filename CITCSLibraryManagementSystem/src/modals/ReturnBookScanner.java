@@ -38,6 +38,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 
 import db.DBConnection;
+import guis.MainApp;
 import inheritances.FontLoader;
 import inheritances.RoundedButton;
 import inheritances.RoundedTextField;
@@ -503,6 +504,7 @@ public class ReturnBookScanner extends JDialog implements ActionListener,Runnabl
 				            JOptionPane.showMessageDialog(null, "This book is overdue for " + overdueDays + " days", "Alert", JOptionPane.WARNING_MESSAGE);
 				        }
 						JOptionPane.showMessageDialog(null, "Successfully Return a book!");
+						MainApp.getInstance().updateOverdueNotification();
 						dispose();
 					} else {
 						JOptionPane.showMessageDialog(null,
