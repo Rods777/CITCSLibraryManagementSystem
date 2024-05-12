@@ -24,7 +24,6 @@ import inheritances.RoundedTextField;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import inheritances.RoundedButton;
@@ -36,10 +35,14 @@ import java.awt.image.BufferedImage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.awt.event.ActionEvent;
+import com.toedter.calendar.JDateChooser;
 
 public class BorrowBookScanner extends JDialog implements ActionListener,Runnable,ThreadFactory{
 
@@ -49,6 +52,7 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 	private FontLoader inter_medium = new FontLoader("/fonts/Inter-Medium.ttf");
 	private FontLoader inter_bold = new FontLoader("/fonts/Inter-Bold.ttf");
 	private RoundedTextField bookTitleTxt, bookAuthorTxt, bookCategoryTxt, borrowersNumberTxt, bookBarcodeTxt;
+	private JDateChooser dateChooser;
 	private RoundedButton enterBtn, borrowBookBtn, cancelBtn;
 	
 	private Webcam webcam = null;
@@ -89,18 +93,18 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 		
 		JLabel lblBookInformation = new JLabel("Book Information");
 		inter_bold.applyFont(lblBookInformation, 19f, Color.BLACK);
-		lblBookInformation.setBounds(523, 73, 235, 28);
+		lblBookInformation.setBounds(523, 60, 235, 28);
 		contentPanel.add(lblBookInformation);
 		
 		JLabel lblBookTitle = new JLabel("Book Title:");
 		inter_medium.applyFont(lblBookTitle, 15f, Color.BLACK);
-		lblBookTitle.setBounds(523, 134, 104, 20);
+		lblBookTitle.setBounds(523, 121, 104, 20);
 		contentPanel.add(lblBookTitle);
 		
 		bookTitleTxt = new RoundedTextField(10);
 		bookTitleTxt.setCaretColor(new Color(0, 0, 0, 0));
 		bookTitleTxt.setEditable(false);
-		bookTitleTxt.setBounds(662, 124, 261, 40);
+		bookTitleTxt.setBounds(662, 111, 261, 40);
 		bookTitleTxt.setBackground(Color.decode("#F2F2F2"));
 		inter_regular.applyFont(bookTitleTxt, 15f, Color.DARK_GRAY);
 		bookTitleTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
@@ -109,7 +113,7 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 		
 		JLabel lblBookAuthor = new JLabel("Book Author:");
 		inter_medium.applyFont(lblBookAuthor, 15f, Color.BLACK);
-		lblBookAuthor.setBounds(523, 195, 104, 20);
+		lblBookAuthor.setBounds(523, 182, 104, 20);
 		contentPanel.add(lblBookAuthor);
 		
 		bookAuthorTxt = new RoundedTextField(10);
@@ -119,12 +123,12 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 		bookAuthorTxt.setColumns(10);
 		bookAuthorTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
 		bookAuthorTxt.setBackground(new Color(242, 242, 242));
-		bookAuthorTxt.setBounds(662, 185, 261, 40);
+		bookAuthorTxt.setBounds(662, 172, 261, 40);
 		contentPanel.add(bookAuthorTxt);
 		
 		JLabel lblCategory = new JLabel("Category:");
 		inter_medium.applyFont(lblCategory, 15f, Color.BLACK);
-		lblCategory.setBounds(523, 258, 104, 20);
+		lblCategory.setBounds(523, 245, 104, 20);
 		contentPanel.add(lblCategory);
 		
 		bookCategoryTxt = new RoundedTextField(10);
@@ -134,17 +138,17 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 		inter_regular.applyFont(bookCategoryTxt, 15f, Color.DARK_GRAY);
 		bookCategoryTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
 		bookCategoryTxt.setBackground(new Color(242, 242, 242));
-		bookCategoryTxt.setBounds(662, 248, 261, 40);
+		bookCategoryTxt.setBounds(662, 235, 261, 40);
 		contentPanel.add(bookCategoryTxt);
 		
 		JLabel lblBorrowersInformation = new JLabel("Borrower's Information");
 		inter_bold.applyFont(lblBorrowersInformation, 19f, Color.BLACK);
-		lblBorrowersInformation.setBounds(523, 352, 235, 28);
+		lblBorrowersInformation.setBounds(523, 314, 235, 28);
 		contentPanel.add(lblBorrowersInformation);
 		
 		JLabel lblStudentNumber = new JLabel("Student Number:");
 		inter_medium.applyFont(lblStudentNumber, 15f, Color.BLACK);
-		lblStudentNumber.setBounds(523, 426, 141, 20);
+		lblStudentNumber.setBounds(523, 388, 141, 20);
 		contentPanel.add(lblStudentNumber);
 		
 		borrowersNumberTxt = new RoundedTextField(10);
@@ -152,9 +156,19 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 		borrowersNumberTxt.setColumns(10);
 		borrowersNumberTxt.setBorder(new LineBorder(new Color(171, 173, 179), 10));
 		borrowersNumberTxt.setBackground(new Color(242, 242, 242));
-		borrowersNumberTxt.setBounds(662, 416, 261, 40);
+		borrowersNumberTxt.setBounds(662, 378, 261, 40);
 		inter_regular.applyFont(borrowersNumberTxt, 15f, Color.BLACK);
 		contentPanel.add(borrowersNumberTxt);
+		
+		JLabel lblDueDate = new JLabel("Due Date:");
+		inter_medium.applyFont(lblDueDate, 15f, Color.BLACK);
+		lblDueDate.setBounds(523, 453, 141, 20);
+		contentPanel.add(lblDueDate);
+		
+		dateChooser = new JDateChooser();
+		dateChooser.setBounds(662, 444, 261, 40);
+		inter_regular.applyFont(dateChooser, 15f, Color.BLACK);
+		contentPanel.add(dateChooser);
 		
 		// Barcode Scanner 
 		
@@ -263,7 +277,12 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 			String bookCategory = bookCategoryTxt.getText();
 			String bookBarcode = bookBarcodeTxt.getText();
 			String studNumber = borrowersNumberTxt.getText();
-			if(bookTitle.isEmpty() || bookAuthor.isEmpty() || bookCategory.isEmpty() || bookBarcode.isEmpty() || studNumber.isEmpty()) {
+			
+	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        String dueDate = formatter.format(dateChooser.getDate());
+			
+
+			if(bookTitle.isEmpty() || bookAuthor.isEmpty() || bookCategory.isEmpty() || bookBarcode.isEmpty() || studNumber.isEmpty() || dateChooser.getDate() == null ) {
 				JOptionPane.showMessageDialog(null, "Please Fill out all Fields", "Alert", JOptionPane.WARNING_MESSAGE);
 			}else {
 				try {
@@ -272,10 +291,11 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 						try {
 							int studentID = getStudentId(studentNumber);
 							prep_stmt = connect.conn.prepareStatement("INSERT INTO borrows (book_barcode, student_id, borrow_date, borrow_dueDate, borrow_status)"
-									+ " VALUES (?, ?, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(ADDDATE(NOW(), INTERVAL 2 DAY), '%Y-%m-%d %H:%i:%s'), ?)");
+									+ " VALUES (?, ?, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), ?, ?)");
 							prep_stmt.setString(1, bookBarcode);
 							prep_stmt.setInt(2, studentID);
-							prep_stmt.setString(3, "Pending for Return");
+							prep_stmt.setString(3, dueDate);
+							prep_stmt.setString(4, "Pending for Return");
 							
 							int row = prep_stmt.executeUpdate();
 							if(row == 1) {
@@ -334,6 +354,14 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 	
 	public boolean checkBookStatus(String barcode) {
 		boolean isAvailable = false;
+		
+        // Create a Calendar and add 2 days for due date
+		Date date = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 2);
+        Date twoDaysAfter = calendar.getTime();
+        
 		try {
 			prep_stmt = connect.conn.prepareStatement("SELECT * FROM books WHERE book_barcode = ? AND book_status = 'Available'");
 			prep_stmt.setString(1, barcode);
@@ -344,6 +372,7 @@ public class BorrowBookScanner extends JDialog implements ActionListener,Runnabl
 				bookAuthorTxt.setText(rs.getString("book_author"));
 				bookCategoryTxt.setText(rs.getString("book_category"));
 				bookBarcodeTxt.setText(rs.getString("book_barcode"));
+				dateChooser.setDate(twoDaysAfter);
 			}
 			prep_stmt.close();
 			rs.close();
