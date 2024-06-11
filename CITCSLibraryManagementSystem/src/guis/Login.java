@@ -104,19 +104,22 @@ public class Login extends JFrame implements ActionListener{
 		bgPanel.add(PLMUN_CITCS);
 		
 		JLabel LIBRARY = new JLabel("LIBRARY");
+		LIBRARY.setHorizontalAlignment(SwingConstants.CENTER);
 		inter_black.applyFont(LIBRARY, 55F, Color.white);
-		LIBRARY.setBounds(126, 238, 256, 95);
+		LIBRARY.setBounds(121, 236, 256, 95);
 		bgPanel.add(LIBRARY);
 		
-		JLabel MANAGEMENT = new JLabel("MANAGEMENT");
-		inter_black.applyFont(MANAGEMENT, 55F, Color.white);
-		MANAGEMENT.setBounds(46, 300, 475, 95);
-		bgPanel.add(MANAGEMENT);
+		JLabel ASSISTANT = new JLabel("ASSISTANT");
+		ASSISTANT.setHorizontalAlignment(SwingConstants.CENTER);
+		inter_black.applyFont(ASSISTANT, 55F, Color.white);
+		ASSISTANT.setBounds(29, 300, 426, 95);
+		bgPanel.add(ASSISTANT);
 		
-		JLabel SYSTEM = new JLabel("SYSTEM");
-		inter_black.applyFont(SYSTEM, 55F, Color.white);
-		SYSTEM.setBounds(126, 365, 256, 95);
-		bgPanel.add(SYSTEM);
+		JLabel TOOL = new JLabel("TOOL");
+		TOOL.setHorizontalAlignment(SwingConstants.CENTER);
+		inter_black.applyFont(TOOL, 55F, Color.white);
+		TOOL.setBounds(121, 364, 256, 95);
+		bgPanel.add(TOOL);
 		
 		//Login Panel and Contents
 		JPanel LOGIN_PANEL = new JPanel();
@@ -211,36 +214,31 @@ public class Login extends JFrame implements ActionListener{
 		  //error handler if fields are empty
 		if(staffId.isEmpty()|| password.isEmpty() ) {
 			JOptionPane.showMessageDialog(null, "Please fill all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
-		}else {
+		} else {
 			//database stuffs
 			try {
 					int staffID = Integer.parseInt(staffId);
 					
 					try {
-				
 						prep_stmt = connect.conn.prepareStatement(
-			                    "SELECT * FROM librarians WHERE librarian_staffID = ? AND librarian_password = ?");
+			                    "SELECT * FROM librarians WHERE librarian_staffID = ?");
 			            prep_stmt.setInt(1, staffID);
-			            prep_stmt.setString(2, password);
 			            ResultSet rs = prep_stmt.executeQuery();
-			            if (rs.next()) {
-			                JOptionPane.showMessageDialog(null, "Login Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-			                MainApp framer = new MainApp();
-			                framer.setVisible(true);
-			                framer.setLocationRelativeTo(null);
-			                dispose();
+			            if (!rs.next()) {
+			            	//error handler for staff id
+							JOptionPane.showInternalMessageDialog(null, "Staff ID doesn't Exist, Please Sign Up first!", "Error" ,JOptionPane.ERROR_MESSAGE);
 			            } else {
-			               
-								
-							//error handler for staff id and pass
-								JOptionPane.showInternalMessageDialog(null, "Invalid StaffID or Password", "Error" ,JOptionPane.ERROR_MESSAGE);
-        			
-        			
-        			
-        			
-        			
-        			
-							}
+			            	String libPass = rs.getString("librarian_password");
+			            	if(!libPass.equals(password)) {
+			            		JOptionPane.showInternalMessageDialog(null, "Wrong Password!", "Error" ,JOptionPane.ERROR_MESSAGE);
+			            	} else {
+				            	JOptionPane.showMessageDialog(null, "Login Successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+				                MainApp framer = new MainApp();
+				                framer.setVisible(true);
+				                framer.setLocationRelativeTo(null);
+				                dispose();
+			            	}
+						}
 			            
 			        } catch (SQLException ex) {
 			            ex.printStackTrace();
