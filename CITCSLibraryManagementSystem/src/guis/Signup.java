@@ -91,33 +91,36 @@ public class Signup extends JFrame implements ActionListener{
 		// Components for the title 
 		JLabel CITCS_logo = new JLabel();
 		CITCS_logo.setIcon(new ImageIcon(Login.class.getResource("/img/citcs_logo.png")));
-		CITCS_logo.setBounds(375, 172, 70, 62);
+		CITCS_logo.setBounds(366, 172, 70, 62);
 		bgPanel.add(CITCS_logo);
 		
 		JLabel PLMUN_Logo = new JLabel();
 		PLMUN_Logo.setIcon(new ImageIcon(Login.class.getResource("/img/plmun_logo.png")));
-		PLMUN_Logo.setBounds(105, 181, 53, 53);
+		PLMUN_Logo.setBounds(96, 181, 53, 53);
 		bgPanel.add(PLMUN_Logo);
 		
 		JLabel PLMUN_CITCS = new JLabel("PLMUN - CITCS");
 		inter_extrabold.applyFont(PLMUN_CITCS, 26F, Color.white);
-		PLMUN_CITCS.setBounds(173, 178, 205, 53);
+		PLMUN_CITCS.setBounds(164, 178, 205, 53);
 		bgPanel.add(PLMUN_CITCS);
 		
 		JLabel LIBRARY = new JLabel("LIBRARY");
+		LIBRARY.setHorizontalAlignment(SwingConstants.CENTER);
 		inter_black.applyFont(LIBRARY, 55F, Color.white);
-		LIBRARY.setBounds(150, 238, 256, 95);
+		LIBRARY.setBounds(130, 242, 256, 95);
 		bgPanel.add(LIBRARY);
 		
-		JLabel MANAGEMENT = new JLabel("MANAGEMENT");
-		inter_black.applyFont(MANAGEMENT, 55F, Color.white);
-		MANAGEMENT.setBounds(70, 300, 475, 95);
-		bgPanel.add(MANAGEMENT);
+		JLabel ASSISTANT = new JLabel("ASSISTANT");
+		ASSISTANT.setHorizontalAlignment(SwingConstants.CENTER);
+		inter_black.applyFont(ASSISTANT, 55F, Color.white);
+		ASSISTANT.setBounds(38, 306, 426, 95);
+		bgPanel.add(ASSISTANT);
 		
-		JLabel SYSTEM = new JLabel("SYSTEM");
-		inter_black.applyFont(SYSTEM, 55F, Color.white);
-		SYSTEM.setBounds(150, 365, 256, 95);
-		bgPanel.add(SYSTEM);
+		JLabel TOOL = new JLabel("TOOL");
+		TOOL.setHorizontalAlignment(SwingConstants.CENTER);
+		inter_black.applyFont(TOOL, 55F, Color.white);
+		TOOL.setBounds(130, 370, 256, 95);
+		bgPanel.add(TOOL);
 		
 		// sign up panel and contents
 		JPanel SIGNUP_PANEL = new JPanel();
